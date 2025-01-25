@@ -26,6 +26,7 @@ connection.once('open', () => {
 // Define routes
 app.use('/api/movies', require('./routes/movie'));
 app.use('/api/categories', require('./routes/category'));
+app.use('/api', require('./routes/users')); // Ensure this line is present
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

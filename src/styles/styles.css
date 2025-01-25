@@ -1,132 +1,240 @@
+/* General Body Styling */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2)), url('../../public/Netflix_Symbol_RGB.png') no-repeat center center fixed;
-    background-size: cover;
-    color: white;
-    height: 100vh;
-    overflow: hidden;
-  }
-  
-  h1 {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  h2 {
-    margin-left: 20px;
-  }
-  
-  .movie-list {
-    display: flex;
-    overflow-x: auto; /* Allow horizontal scrolling */
-    padding: 10px 0;
-    z-index: 2; /* Ensure movie list is on top */
-  }
-  
-  .movie-item {
-    margin: 10px;
-    text-align: center;
-    z-index: 2; /* Ensure movie items are on top */
-    
-  }
-  .movie-poster {
-    width: 150px;
-    height: 225px;
-    object-fit: cover;
-    border-radius: 5px;
-    transition: transform 0.3s;
-  }
-    .movie-video {
-        display: flex;
-        align-items: center;
-        width: 400px;
-        height: 300px;
-        object-fit: cover;
-
-    }
-  .movie-item:hover, .movie-video:hover {
-    transform: scale(0.9);
-  }
-  .hover-content {
-    position: relative;
-  }
-  .see-details-button {
-    
-    display: none; /* Hide the button by default */
-    position: absolute; 
-    bottom: 20px;
-    left: 20px;
-    /* transform: translateX(-50%); */
-    padding: 10px 20px;
-    background-color: #e50914;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-    z-index: 4; /* Ensure button is on top */
-  }
-  
-.movie-item:hover .see-details-button {
-    display: inline-block; /* Show the button when hovering over the movie-item container */
-  }
-  
-  .see-details-button:hover {
-    background-color: #f40612;
-  }
-  .content {
-    position: relative;
-    z-index: 1;
-    padding: 20px;
-    overflow-y: auto;
-    height: 100vh; /* Ensure it takes the full height of the viewport */  }
-  
-
-  .random-movie {
-    display: flex;
-    align-items: center;
-    /* justify-content: center; */
-
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    z-index: 3; /* Ensure random movie is on top */
-    margin: 20px auto; /* Center the container */
-    position: relative; /* Ensure positioning context for absolute elements */
-  }
-  
-  .random-movie-video {
-    width: 400px;
-    height: 300px;
-    border-radius: 10px;
-    z-index: 3; /* Ensure video is on top */
-    object-fit: cover;
-  
+  margin: 0;
+  font-family:  Arial, sans-serif;
+  background:#141414;
+  color: white;
+  height: 100vh;
+  overflow-y: auto; /* Allow vertical scrolling */}
+header {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 10px 20px;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
 }
-  
-  .random-movie-details {
-    max-width: 600px;
-    z-index: 3; /* Ensure details are on top */
-    margin-left: 20px;
+header .navbar-brand {
+  font-size: 24px;
+}
+/* Headers */
+h1 {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #e50914;
+}
 
+h2 {
+  margin: 20px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+/* Random Movie Section */
+.random-movie {
+  position: relative;
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align text to the left */
+  padding: 0 5%; /* Space from the left edge */
+  background: black;
+  color: white;
+  overflow: hidden;
+}
+
+/* Background Image or Video */
+.random-movie-video video, 
+.random-movie-video img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Dark Overlay for Readability */
+.random-movie::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3));
+  z-index: 1;
+}
+
+/* Movie Details */
+.random-movie-details {
+  position: relative;
+  z-index: 2;
+  max-width: 40%;
+}
+
+.random-movie-details h2 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.random-movie-details p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+/* Buttons */
+.random-movie-button {
+  padding: 10px 20px;
+  background-color: #e50914;
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1.2rem;
+  margin-right: 10px;
+}
+
+.random-movie-button:hover {
+  background-color: #f40612;
+}
+
+/* Movie Rows */
+.movie-list-wrapper {
+  margin: 20px;
+  position: relative;
+}
+
+.movie-list-wrapper h2 {
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.movie-list {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 0;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  gap: 10px;
+  position: relative;  /* Ensures the relative positioning of movie items */
+}
+
+/* Movie Item Styling */
+.movie-item {
+  position: relative;
+  transition: transform 0.3s;
+  flex-shrink: 0; /* Prevent shrinking of items */
+  display: inline-block;
+}
+
+.movie-poster {
+  width: 160px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effect - Scaling the Poster */
+.movie-item:hover .movie-poster {
+  transform: scale(1.2); /* Increase the size on hover */
+  z-index: 2; /* Ensures the hovered item is on top */
+}
+
+/* Hover Content Styling (Video Popup) */
+.hover-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 160px;
+  height: 240px;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1; /* Ensure it's below the movie poster */
+}
+
+.movie-item:hover .hover-content {
+  opacity: 1;
+}
+
+.see-details-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #e50914;
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.see-details-button:hover {
+  background-color: #f40612;
+}
+
+/* Scroll Buttons */
+.scroll-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 3;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-button.left {
+  left: -20px;
+}
+
+.scroll-button.right {
+  right: -20px;
+}
+
+.scroll-button:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .random-movie {
+      flex-direction: column;
+      text-align: center;
   }
-  
-  .random-movie-button {
-    display: none; /* Hide the button by default */
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    padding: 10px 20px;
-    background-color: #e50914;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-    z-index: 4; /* Ensure button is on top */
+
+  .random-movie-video {
+      width: 100%;
+      height: 100%;
   }
-  .random-movie:hover .random-movie-button {
-    display: inline-block; /* Show the button when hovering over the random-movie container */
+
+  .random-movie-details {
+      max-width: 100%;
+      margin-top: 20px;
   }
-  .random-movie-button:hover {
-    background-color: #f40612;
-  }
+
+}

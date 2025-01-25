@@ -1,16 +1,12 @@
-import React from 'react';
-import MovieItem from './MovieItem';
-import '../styles/styles.css'; // Import the CSS file
+import React from "react";
+import MovieRow from "./MovieRow";
+import "../styles/categoryMovies.css"; // Make sure to use a specific CSS file for this component
 
 function CategoryMovies({ category, movies }) {
   return (
-    <div>
-      <h2>{category.name}</h2>
-      <div className="movie-list">
-        {movies.map(movie => (
-          <MovieItem key={movie._id} movie={movie} />
-        ))}
-      </div>
+    <div className="category-movies mb-4">
+      <h2 className="category-title">{category.name}</h2>
+      <MovieRow  movies={movies} rowId={category._id} />
     </div>
   );
 }

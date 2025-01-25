@@ -1,0 +1,89 @@
+/* Scroll Buttons */
+.scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px; /* Make the buttons larger */
+    height: 50px;
+    cursor: pointer;
+    z-index: 3;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .scroll-button:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+  
+  /* Positioning for Left Button */
+  .scroll-button.left {
+    left: 10px; /* Increase space from the left */
+  }
+  
+  /* Positioning for Right Button (modified) */
+  .scroll-button.right {
+    right: 30px; /* Adjust the space from the right edge */
+    z-index: 10; /* Ensure the button stays on top of the movie row */
+  }
+/* Movie Row Styling */
+
+.movie-row-container {
+    margin: 20px 0;
+    position: relative;
+  }
+  
+  .movie-row-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .movie-row {
+    display: flex;             /* Ensure movies are displayed in a row */
+    flex-wrap: nowrap;         /* Prevent movies from wrapping to the next line */
+    gap: 5px;                 /* Add spacing between movie items */
+    overflow-x: auto;          /* Allow horizontal scrolling */
+    padding: 10px 0;           /* Space on top and bottom */
+    scroll-behavior: smooth;   /* Smooth scrolling */
+  }
+  
+  /* Hide scrollbar */
+  .movie-row::-webkit-scrollbar {
+    display: none;
+  }
+  
+    
+ .movie-item {
+    margin: 5px;
+    text-align: center;
+    z-index: 2; /* Ensure movie items are on top */
+    
+  }
+  .movie-poster {
+    width: 150px;
+    height: 225px;
+    object-fit: cover;
+    border-radius: 5px;
+    transition: transform 0.3s;
+  }
+    .movie-video {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+    }
+  .movie-item:hover, .movie-video:hover {
+    transform: scale(0.9);
+  }
+  .hover-content {
+    position: relative;
+  }

@@ -17,7 +17,7 @@ function MovieItem({ movie }) {
             <source src={movie.videoUrl} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <Link to={`/movie/${movie._id}`} className="see-details-button">See Details</Link>
+          <Link to={`/movie/${movie._id}`} className="see-details-button btn btn-danger">See Details</Link>
         </div>
       ) : (
         <img src={movie.posterUrl} alt={movie.title} className="movie-poster" />

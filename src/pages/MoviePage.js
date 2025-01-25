@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchMovieById } from '../services/movieService';
+import { addMovieToWatched } from '../services/userService';
 
 function MoviePage() {
   const { id } = useParams(); // Get movie ID from URL
@@ -27,8 +28,14 @@ function MoviePage() {
 
   console.log('Movie state:', movie); // Debugging log
 
-  const handlePlayClick = () => {
-    navigate(`/play/${movie._id}`); // Navigate to the play screen using useNavigate
+  const handlePlayClick = async () => {
+    try {
+      const userId = '6795112050cfff934593584b'; // Replace with the actual user ID
+      await addMovieToWatched(userId, movie._id); // Add movie to user's watchlist
+      navigate(`/play/${movie._id}`); // Navigate to the play screen using useNavigate
+    } catch (error) {
+      console.error('Failed to add movie to watchlist:', error);
+    }
   };
 
   return (
