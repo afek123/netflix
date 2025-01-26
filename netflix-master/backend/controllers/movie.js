@@ -4,23 +4,29 @@ const Movie = require('../models/movie');
 const createMovie = async (req, res) => {
     try {
       console.log('Request Body:', req.body);
-      console.log('Uploaded File:', req.files);
+      console.log('Uploaded Files:', req.files);
   
-      const { title, director, category, videoUrl } = req.body;
-      const poster = req.files.posterUrl ? `/uploads/${req.files.posterUrl[0].filename}` : null;
+      const { title, director, category } = req.body;
   
-      if (!title || !director || !category || !videoUrl || !poster) {
-        return res.status(400).json({ error: 'All fields are required' });
+      // Check for video and poster files in req.files
+      const poster = req.files.posterUrl ? `/uploads/${req.files.posterUrl[0].filename}` : null; 
+      const video = req.files.videoUrl ? `/uploads/${req.files.videoUrl[0].filename}` : null;
+  
+      // Validate input
+      if (!title || !director || !category || !video || !poster) {
+        return res.status(400).json({ error: 'All fields (title, director, category, video, poster) are required' });
       }
   
+      // Create a new movie object
       const newMovie = new Movie({
         title,
         director,
         category,
-        videoUrl,
-        posterUrl: poster,
+        videoUrl: video,  // Use the uploaded video file path
+        posterUrl: poster, // Use the uploaded poster file path
       });
-      
+  
+      // Save to database
       const savedMovie = await newMovie.save();
       res.status(201).json(savedMovie);
     } catch (err) {
@@ -29,7 +35,6 @@ const createMovie = async (req, res) => {
     }
   };
   
-
 // Get movie list of the user by ID
 const getMovies = async (req, res) => {
     try {

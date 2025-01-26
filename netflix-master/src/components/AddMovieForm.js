@@ -4,30 +4,35 @@ const AddMovieForm = ({
   title,
   director,
   category,
-  videoUrl,
   categories,
   setTitle,
   setDirector,
   setCategory,
-  setVideoUrl,
-  setPosterUrl,
   handleSubmit,
   errorMessage,
 }) => {
-  const [posterFile, setPosterFile] = useState(null); // State for the selected file
+  const [videoFile, setVideoFile] = useState(null);   // State for the video file
+  const [posterFile, setPosterFile] = useState(null); // State for the poster file
 
-  // Handle file selection
-  const handleFileChange = (e) => {
+  // Handle video file selection
+  const handleVideoFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setPosterFile(file); // Set the file in the state
+      setVideoFile(file);
+    }
+  };
+
+  // Handle poster file selection
+  const handlePosterFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPosterFile(file);
     }
   };
 
   // Ensure categories is an object before calling Object.entries()
   const categoryOptions = categories ? Object.entries(categories) : [];
 
-  // Submit handler
   const onSubmit = async (e) => {
     e.preventDefault();
   
@@ -35,8 +40,8 @@ const AddMovieForm = ({
     formData.append('title', title);
     formData.append('director', director);
     formData.append('category', category);
-    formData.append('videoUrl', videoUrl);
-    if (posterFile) formData.append('posterUrl', posterFile); // Make sure 'poster' matches multer's field name
+    if (videoFile) formData.append('videoUrl', videoFile);   // Corrected video field name
+    if (posterFile) formData.append('posterUrl', posterFile); // Corrected poster field name
   
     try {
       const response = await fetch('http://localhost:5000/api/movies', {
@@ -52,6 +57,7 @@ const AddMovieForm = ({
     }
   };
   
+
   return (
     <>
       {errorMessage && <p className="error">{errorMessage}</p>}
@@ -93,20 +99,15 @@ const AddMovieForm = ({
           </select>
         </div>
         <div>
-          <label htmlFor="videoUrl">Video URL:</label>
-          <input
-            type="text"
-            id="videoUrl"
-            value={videoUrl}
-            onChange={(e) => setVideoUrl(e.target.value)}
-            required
-          />
+          <label htmlFor="videoFile">Video File:</label>
+          <input type="file" id="videoFile" onChange={handleVideoFileChange} required />
         </div>
+        {videoFile && <p>Selected video: {videoFile.name}</p>}
         <div>
           <label htmlFor="posterFile">Poster File:</label>
-          <input type="file" id="posterFile" onChange={handleFileChange} />
+          <input type="file" id="posterFile" onChange={handlePosterFileChange} />
         </div>
-        {posterFile && <p>Selected file: {posterFile.name}</p>}
+        {posterFile && <p>Selected poster: {posterFile.name}</p>}
         <button type="submit">Add Movie</button>
       </form>
     </>
