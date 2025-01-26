@@ -1,0 +1,47 @@
+.movie-page {
+    padding: 20px;
+    background-color: #141414;
+    color: white;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .movie-details {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .movie-info {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .movie-poster {
+    width: 200px;
+    height: auto;
+    margin-right: 20px;
+  }
+  
+  .movie-meta p {
+    margin: 5px 0;
+  }
+  
+  .full-screen-btn {
+    background-color: #e50914;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  .movie-video {
+    margin-top: 20px;
+    background-color: black;
+    padding: 10px;
+  }
+  
