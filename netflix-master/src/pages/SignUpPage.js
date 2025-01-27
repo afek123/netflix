@@ -9,6 +9,7 @@ const SignUpPage = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [name, setName] = useState('');
     const [picture, setPicture] = useState(null);
+    const [preview, setPreview] = useState(null);
     const navigate = useNavigate();
 
     const handleSignUp = (e) => {
@@ -63,6 +64,12 @@ const SignUpPage = () => {
         }
     };
 
+    const handlePreview = (e) => {
+        const file = e.target.files[0];
+        setPicture(file);
+        setPreview(URL.createObjectURL(file));
+    };
+
     return (
         <div className="container">
             <h1>Sign Up</h1>
@@ -94,11 +101,12 @@ const SignUpPage = () => {
                 <input
                     type="file"
                     accept="image/*"
-                    placeholder="Profile Picture"
-                    onChange={(e) => setPicture(e.target.files[0])}
+                    onChange={handlePreview}
                 />
+                {preview && <img src={preview} alt="Profile Preview" className="profile-preview" />}
                 <button type="submit">Sign Up</button>
             </form>
+            <button onClick={() => navigate('/signin')}>already have an account?</button>
         </div>
     );
 };

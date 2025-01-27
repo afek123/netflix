@@ -7,7 +7,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-image: url("../pictures/homeP.webp");
+    background-image: url("../pictures/LightMode.webp");
     background-size: cover;
     background-position: center;
 }
@@ -28,7 +28,7 @@ button {
     background-color: #e50914;
     border: none;
     border-radius: 5px;
-    color: #fff;
+    color: #000000;
     font-size: 16px;
     cursor: pointer;
     margin: 2px;

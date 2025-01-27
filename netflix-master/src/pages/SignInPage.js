@@ -53,6 +53,7 @@ const SignInPage = () => {
                 />
                 <button type="submit">Sign In</button>
             </form>
+            <button onClick={() => navigate('/signup')}>new to NETFLIX? sign up now!</button>
         </div>
     );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/HomePage.css';
+import ThemeToggleButton from '../components/ThemeToggleButton';
 
 const HomePage = () => {
     return (
@@ -15,9 +16,7 @@ const HomePage = () => {
                     <button>Sign Up</button>
                 </Link>
             </div>
-            <audio autoPlay loop>
-                <source src="/mixkit-intro-transition-1146.wav" type="audio/wav" />
-            </audio>
+            <ThemeToggleButton />
         </div>
     );
 }
