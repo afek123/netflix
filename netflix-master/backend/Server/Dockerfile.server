@@ -1,0 +1,65 @@
+# שלב ראשון: בניית כל הקבצים
+FROM gcc:12 AS builder
+
+# Set non-interactive mode for apt-get
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Set the working directory inside the container
+WORKDIR /usr/src/app
+
+# Copy all the source files to the container
+COPY . .
+
+# Install required libraries for building
+RUN apt-get update && apt-get install -y \
+    g++ \
+    libc6-dev \
+    libstdc++6 \
+    cmake \
+    libgtest-dev \
+    make
+
+# Install Google Test
+RUN cd /usr/src/googletest && cmake . && make && make install
+
+# Compile the server binary
+RUN g++ -std=c++17 -o server server.cpp App.cpp PostCommand.cpp HelpCommand.cpp Db.cpp DeleteMoviesCommand.cpp GetRecommendMoviesCommand.cpp PatchCommand.cpp  -pthread
+
+# Compile the DeleteMoviesCommand test binary
+RUN g++ -std=c++17 -o DeleteMoviesCommandTests DeleteMoviesCommandTests.cpp DeleteMoviesCommand.cpp Db.cpp -lgtest -lgtest_main -pthread
+
+# Compile the PatchMovieCommand test binary
+RUN g++ -std=c++17 -o PatchMovieCommandTests PatchMovieCommandTest.cpp PatchCommand.cpp PostCommand.cpp Db.cpp -lgtest -lgtest_main -pthread
+# Compile the POSTCommand test binary
+RUN g++ -std=c++17 -o PostommandTests PostMovieCommandTest.cpp  PostCommand.cpp Db.cpp -lgtest -lgtest_main -pthread
+RUN g++ -std=c++17 -o GETcommandTests GetRecommendMoviesCommandTests.cpp GetRecommendMoviesCommand.cpp Db.cpp -lgtest -lgtest_main -pthread
+
+# שלב להרצת הבדיקות
+FROM builder AS tests
+
+# Default command to run multiple tests
+CMD ["bash", "-c", "./DeleteMoviesCommandTests && ./PatchMovieCommandTests && ./PostommandTests && ./GETcommandTests"]
+
+# שלב הרצת השרת
+FROM debian:bookworm-slim AS runtime
+
+# Set non-interactive mode for apt-get
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install required runtime dependencies
+RUN apt-get update && apt-get install -y \
+    libstdc++6 \
+    libc6 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set the working directory inside the runtime container
+WORKDIR /usr/src/app
+
+# Copy the compiled server binary from the builder stage
+COPY --from=builder /usr/src/app/server /usr/src/app/
+
+# Expose the default port
+EXPOSE 8080
+
+# Default command (override at runtime)
+CMD ["./server", "8080"]
