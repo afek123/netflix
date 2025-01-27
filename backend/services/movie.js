@@ -50,7 +50,7 @@ const updateMovie = async (id, movieData) => {
     const movie = await getMovieById(id);
     if (!movie) return null;
     const categoryExists = await Category.findById(movieData.category);
-    if (!categoryExists) return err;
+    if (!categoryExists) return null;
     movie.set(movieData);
     await movie.save();
     return movie;

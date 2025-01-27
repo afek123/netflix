@@ -1,19 +1,40 @@
 const movieService = require('../services/movie');
+const Movie = require('../models/movie');
 // Create a new movie
 const createMovie = async (req, res) => {
     try {
-        const movie = await movieService.createMovie(req.body);
-        if (!movie) {
-            return res.status(400).json({ error: 'Movie could not be created' });
-        }
-        res.status(201).json(movie);
+      console.log('Request Body:', req.body);
+      console.log('Uploaded Files:', req.files);
+  
+      const { title, director, category } = req.body;
+  
+      // Check for video and poster files in req.files
+      const poster = req.files.posterUrl ? `/uploads/${req.files.posterUrl[0].filename}` : null; 
+      const video = req.files.videoUrl ? `/uploads/${req.files.videoUrl[0].filename}` : null;
+  
+      // Validate input
+      if (!title || !director || !category || !video || !poster) {
+        return res.status(400).json({ error: 'All fields (title, director, category, video, poster) are required' });
+      }
+  
+      // Create a new movie object
+      const newMovie = new Movie({
+        title,
+        director,
+        category,
+        videoUrl: video,  // Use the uploaded video file path
+        posterUrl: poster, // Use the uploaded poster file path
+      });
+  
+      // Save to database
+      const savedMovie = await newMovie.save();
+      res.status(201).json(savedMovie);
+    } catch (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Failed to create movie' });
     }
-    catch (err) {
-        res.status(400).json({ error: 'unable to create the movie' });
-    }
-};
-
-
+  };
+  
 // Get movie list of the user by ID
 const getMovies = async (req, res) => {
     try {

@@ -1,11 +1,16 @@
 /* General Body Styling */
 body {
   margin: 0;
-  font-family:  Arial, sans-serif;
-  background:#141414;
-  color: white;
-  height: 100vh;
-  overflow-y: auto; /* Allow vertical scrolling */}
+  font-family: Arial, sans-serif;
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+}
+
+body.dark {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
 header {
   background: rgba(0, 0, 0, 0.8);
   padding: 10px 20px;
@@ -13,23 +18,32 @@ header {
   width: 100%;
   z-index: 10;
 }
+
 header .navbar-brand {
   font-size: 24px;
+  color: var(--text-color-dark); /* Ensure the text color adapts to the theme */
 }
+body.light header .navbar-brand {
+  color: var(--text-color-light); /* Ensure the text color adapts to the theme */
+}
+
 /* Headers */
 h1 {
   text-align: center;
   margin: 20px 0;
   font-size: 3rem;
   font-weight: bold;
-  color: #e50914;
+  color: var(--primary-color);
 }
 
 h2 {
   margin: 20px;
   font-size: 1.8rem;
   font-weight: bold;
+  color: inherit; /* Inherit the color from the body */
+
 }
+
 /* Random Movie Section */
 .random-movie {
   position: relative;
@@ -40,10 +54,12 @@ h2 {
   justify-content: flex-start; /* Align text to the left */
   padding: 0 5%; /* Space from the left edge */
   background: black;
-  color: white;
+  color: var(--text-color-dark); /* Ensure the text color adapts to the theme */
   overflow: hidden;
 }
-
+body.light .random-movie {
+  color: var(--text-color-light); /* Ensure the text color adapts to the theme */
+}
 /* Background Image or Video */
 .random-movie-video video, 
 .random-movie-video img {
@@ -73,12 +89,15 @@ h2 {
   position: relative;
   z-index: 2;
   max-width: 40%;
+  color: inherit; /* Inherit the color from the parent */
+
 }
 
 .random-movie-details h2 {
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 20px;
+  color: inherit; /* Inherit the color from the parent */
 }
 
 .random-movie-details p {
@@ -89,7 +108,7 @@ h2 {
 /* Buttons */
 .random-movie-button {
   padding: 10px 20px;
-  background-color: #e50914;
+  background-color: var(--primary-color);
   color: white;
   text-decoration: none;
   border: none;
@@ -102,7 +121,7 @@ h2 {
 }
 
 .random-movie-button:hover {
-  background-color: #f40612;
+  background-color: var(--primary-color-hover);
 }
 
 /* Movie Rows */
@@ -115,6 +134,8 @@ h2 {
   margin-bottom: 10px;
   font-size: 1.8rem;
   font-weight: bold;
+  color: inherit; /* Inherit the color from the body */
+
 }
 
 .movie-list {
@@ -175,7 +196,7 @@ h2 {
 .see-details-button {
   margin-top: 10px;
   padding: 10px 20px;
-  background-color: #e50914;
+  background-color: var(--primary-color);
   color: white;
   text-decoration: none;
   border: none;
@@ -186,7 +207,7 @@ h2 {
 }
 
 .see-details-button:hover {
-  background-color: #f40612;
+  background-color: var(--primary-color-hover);
 }
 
 /* Scroll Buttons */
@@ -236,5 +257,4 @@ h2 {
       max-width: 100%;
       margin-top: 20px;
   }
-
 }

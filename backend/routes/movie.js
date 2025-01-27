@@ -1,22 +1,28 @@
 const router = require('express').Router();
+const uploadFields = require('../middleware/multer'); // Import the Multer middleware
+const movieController = require('../controllers/movie');
+const recommendationController = require('../controllers/recommendation');
 let Movie = require('../models/movie');
 
-// Get all movies
 router.route('/').get((req, res) => {
-  Movie.find()
-    .then(movies => res.json(movies))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+    Movie.find()
+      .then(movies => res.json(movies))
+      .catch(err => res.status(400).json('Error: ' + err));
+  });
+  
+// Routes for movies
+router.route('/')
+    .get(movieController.getMovies)
+    .post(uploadFields, movieController.createMovie); // Pass `upload` directly
 
-// Get movie by ID
-router.route('/:id').get((req, res) => {
-  Movie.findById(req.params.id)
-    .then(movie => res.json(movie))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+router.route('/:id')
+    .get(movieController.getMovie) // Get a movie by ID
+    .put(movieController.updateMovie) // Update a movie
+    .delete(movieController.deleteMovie); // Delete a movie
 
-module.exports = router;
-const recommendationController = require('../controllers/recommendation');
+// Route for searching movies
+router.route('/search/:query')
+    .get(movieController.searchMovies);
 
 // Routes for recommendations
 router.route('/:userId/:movieId/recommend')
@@ -24,17 +30,4 @@ router.route('/:userId/:movieId/recommend')
     .post(recommendationController.addRecommendation)
     .delete(recommendationController.deleteRecommendation);
 
-const movieController = require('../controllers/movie');
-
-router.route('/')
-    .get(movieController.getMovies)
-    .post(movieController.createMovie);
-
-router.route('/:id')
-    .get(movieController.getMovie)
-    .put(movieController.updateMovie)
-    .delete(movieController.deleteMovie);
-
-router.route('/search/:query')
-    .get(movieController.searchMovies);
 module.exports = router;

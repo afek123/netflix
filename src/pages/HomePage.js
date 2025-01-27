@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { fetchMovies, fetchCategories } from "../services/movieService";
 import CategoryMovies from "../components/CategoryMovies";
 import RandomMovie from "../components/RandomMovie";
 import "../styles/styles.css";
 
 function HomePage() {
-  const [categories, setCategories] = useState([]);
-  const [movies, setMovies] = useState([]);
-  const [randomMovie, setRandomMovie] = useState(null);
+  const [categories, setCategories] = React.useState([]);
+  const [movies, setMovies] = React.useState([]);
+  const [randomMovie, setRandomMovie] = React.useState(null);
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const getData = async () => {
       try {
         const [categoriesData, moviesData] = await Promise.all([
@@ -33,6 +35,10 @@ function HomePage() {
 
   return (
     <div className="content">
+      <div className="navigation-buttons">
+        <button onClick={() => navigate("/manager")}>Go to Manager Page</button>
+        <button onClick={() => navigate("/search")}>Go to Search Page</button>
+      </div>
       {randomMovie && <RandomMovie movie={randomMovie} />}
       {categories.map((category) => {
         const categoryMovies = movies.filter((movie) =>
