@@ -18,7 +18,9 @@ const MovieCard = ({ movie, categories, handleDelete }) => {
         />
         <div className="movieInfo">
           <h3 className="movieTitle">{movie.title}</h3>
-          <p className="movieDirector">Director: {movie.director}</p>
+          <h3 className="movieDirector">
+            Director: {movie.director || "Unknown"}
+          </h3>
           <p className="movieCategory">
             Category: {categories[movie.category] || "Unknown"}
           </p>

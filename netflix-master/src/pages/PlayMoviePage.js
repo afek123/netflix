@@ -27,8 +27,13 @@ function PlayMoviePage() {
   return (
     <div>
       <h1>{movie.title}</h1>
-      <video controls>
-        <source src={movie.videoUrl} type="video/mp4" />
+
+      {/* Play video */}
+      <video controls width="640" height="360">
+        <source
+          src={`http://localhost:5000${movie.videoUrl}`} // Use the correct URL for the uploaded video
+          type="video/mp4"
+        />
         Your browser does not support the video tag.
       </video>
     </div>

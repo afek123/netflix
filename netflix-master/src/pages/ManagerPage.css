@@ -6,8 +6,8 @@
   .managerPage {
     padding: 20px;
     text-align: center;
-    background-color: #111;
-    color: #fff;
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -16,6 +16,10 @@
     flex-grow: 1;  /* Ensures that the container grows if content exceeds the viewport height */
   }
   
+  body.dark .managerPage {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
+  }
   
   form {
     width: 100%;
@@ -39,8 +43,6 @@
     max-height: 80vh; /* Restrict form height */
     overflow-y: auto; /* Allow scrolling if content overflows */
   }
-  
-
   
   /* Mode selector buttons */
   .modeSelector {

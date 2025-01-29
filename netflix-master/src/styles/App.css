@@ -1,27 +1,51 @@
-.App {
-  font-family: Arial, sans-serif;
-  padding: 20px;
+body.light {
+  background-color: #f4f4f4;
+  color: #333;
 }
 
-.movie-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+body.dark {
+  background-color: #141414;
+  color: white;
 }
 
-.movie-card {
-  border: 1px solid #ccc;
-  padding: 10px;
-  width: 200px;
+.theme-toggle-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 10px 20px;
+  background-color: #e50914;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.movie-card img {
-  width: 100%;
-  height: auto;
+.theme-toggle-button:hover {
+  background-color: #f40612;
+}body.light {
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
 }
 
-nav a {
-  margin-right: 10px;
-  text-decoration: none;
-  color: blue;
+body.dark {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+.theme-toggle-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.theme-toggle-button:hover {
+  background-color: var(--primary-color-hover);
 }

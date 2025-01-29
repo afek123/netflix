@@ -11,7 +11,10 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #000; /* Black background for the whole page */
+  background-color: var(--background-color-light); /* Light background for the whole page */
+}
+body.dark .pageContainer {
+  background-color: var(--background-color-dark); /* Dark background for the whole page */
 }
 
 /* Styles for the main container */
@@ -19,7 +22,7 @@ html, body {
   max-width: 1200px;
   padding: 20px;
   font-family: 'Arial', sans-serif;
-  color: #fff;
+  color: var(--text-color-light);
   width: 100%;
   height: 100%;
   text-align: center;
@@ -124,7 +127,11 @@ html, body {
   font-size: 14px;
   color: #aaa;
 }
-
+/* Category text styling */
+.resultDirector {
+  font-size: 14px;
+  color: #aaa;
+}
 /* Hover effect content overlay */
 .resultItem .hoverOverlay {
   position: absolute;

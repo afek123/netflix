@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchMovies, fetchCategories, addMovie, updateMovie, deleteMovie, deleteCategory } from "../services/movieService";
+import { fetchMovies, fetchCategories, updateMovie, deleteMovie, deleteCategory } from "../services/movieService";
 import ModeSelector from "../components/ModeSelector";
 import AddMovieForm from "../components/AddMovieForm";
 import DeleteMovieList from "../components/DeleteMovieList";
@@ -71,15 +71,9 @@ function ManagerPage() {
       alert("Category deleted successfully!");
   };
 
-  const handleAddSubmit = async (e) => {
-    const newMovie = { title, director, category, videoUrl, posterUrl };
-    try {
-      const createdMovie = await addMovie(newMovie);
-      setMovies([...movies, createdMovie]); // Update movies state with new movie
-      resetForm();
-    } catch (error) {
-      setErrorMessage("An error occurred while adding the movie.");
-    }
+  const handleAddSubmit = (newMovie) => {
+    setMovies((prevMovies) => [...prevMovies, newMovie]); // Add the new movie to the state
+    alert("Movie added successfully!");
   };
 
   const handleUpdateSubmit = async (movieId, updatedMovie) => {
@@ -150,7 +144,6 @@ function ManagerPage() {
           resetForm();
         }}
       />
-
       <FormResetter 
         setTitle={setTitle} 
         setDirector={setDirector} 

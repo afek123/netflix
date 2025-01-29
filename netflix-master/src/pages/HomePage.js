@@ -1,19 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link component
-import { fetchMovies, fetchCategories } from '../services/movieService';
-import CategoryMovies from '../components/CategoryMovies';
-import RandomMovie from '../components/RandomMovie';
-import '../styles/styles.css'; // Import the CSS file
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchMovies, fetchCategories } from "../services/movieService";
+import CategoryMovies from "../components/CategoryMovies";
+import RandomMovie from "../components/RandomMovie";
+import "../styles/styles.css";
 
 function HomePage() {
-  const [categories, setCategories] = useState([]);
-  const [movies, setMovies] = useState([]);
-  const [randomMovie, setRandomMovie] = useState(null);
+  const [categories, setCategories] = React.useState([]);
+  const [movies, setMovies] = React.useState([]);
+  const [randomMovie, setRandomMovie] = React.useState(null);
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const getData = async () => {
       try {
-        const [categoriesData, moviesData] = await Promise.all([fetchCategories(), fetchMovies()]);
+        const [categoriesData, moviesData] = await Promise.all([
+          fetchCategories(),
+          fetchMovies(),
+        ]);
         setCategories(categoriesData);
         setMovies(moviesData);
 
@@ -23,7 +27,7 @@ function HomePage() {
           setRandomMovie(moviesData[randomIndex]);
         }
       } catch (error) {
-        console.error('Failed to fetch data:', error);
+        console.error("Failed to fetch data:", error);
       }
     };
     getData();
@@ -31,23 +35,22 @@ function HomePage() {
 
   return (
     <div className="content">
-      {randomMovie && <RandomMovie movie={randomMovie} />}
-      
-      <h1>Movies</h1>
-
-      {/* Navigation buttons */}
       <div className="navigation-buttons">
-        <Link to="/manager">
-          <button className="button">Go to Manager Page</button>
-        </Link>
-        <Link to="/search">
-          <button className="button">Go to Search Page</button>
-        </Link>
+        <button onClick={() => navigate("/manager")}>Go to Manager Page</button>
+        <button onClick={() => navigate("/search")}>Go to Search Page</button>
       </div>
-
-      {categories.map(category => {
-        const categoryMovies = movies.filter(movie => movie.category.includes(category._id));
-        return <CategoryMovies key={category._id} category={category} movies={categoryMovies} />;
+      {randomMovie && <RandomMovie movie={randomMovie} />}
+      {categories.map((category) => {
+        const categoryMovies = movies.filter((movie) =>
+          movie.category.includes(category._id)
+        );
+        return (
+          <CategoryMovies
+            key={category._id}
+            category={category}
+            movies={categoryMovies}
+          />
+        );
       })}
     </div>
   );
