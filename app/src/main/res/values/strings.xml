@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="foo">Hola</string>
+    <string name="bar">Cómo</string>
+    <string name="foobar">estás</string>
+    <string name="todo">TODO</string>
+    <string name="write_post_here">Write post here</string>
+    <string name="save">Save</string>
+</resources>
