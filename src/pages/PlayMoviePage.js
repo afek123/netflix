@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMovieById } from '../services/movieService';
+import "../styles/styles.css";
 
 function PlayMoviePage() {
   const { id } = useParams(); // Get movie ID from URL
@@ -21,16 +22,22 @@ function PlayMoviePage() {
   }, [id]); // Re-run effect if the movie ID changes
 
   if (!movie) {
-    return <h2>Loading movie...</h2>;
+    return (
+      <div className="play-movie-loading">
+        <h2>Loading movie...</h2>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h1>{movie.title}</h1>
-      <video controls>
-        <source src={movie.videoUrl} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+    <div className="play-movie-wrapper">
+      <div className="play-movie-container">
+        <h1 className="movie-title">{movie.title}</h1>
+        <video className="movie-video" controls>
+          <source src={movie.videoUrl} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
     </div>
   );
 }

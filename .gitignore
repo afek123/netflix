@@ -1613,7 +1613,7 @@ backend/node_modules/whatwg-url/package.json
 backend/node_modules/whatwg-url/README.md
 backend/node_modules/whatwg-url/webidl2js-wrapper.js
 backend/node_modules/whatwg-url/lib/encoding.js
-backend/node_modules/whatwg-url/lib/Function.js
+backend/node_modules/whatwg-url/lib/Fxunction.js
 backend/node_modules/whatwg-url/lib/infra.js
 backend/node_modules/whatwg-url/lib/percent-encoding.js
 backend/node_modules/whatwg-url/lib/URL-impl.js

@@ -89,8 +89,11 @@ body.light .random-movie {
   position: relative;
   z-index: 2;
   max-width: 40%;
-  color: inherit; /* Inherit the color from the parent */
+  color: var(--text-color-dark); /* Default to dark text color */
+}
 
+body.light .random-movie-details {
+  color: var(--text-color-light); /* Change to light text color in light mode */
 }
 
 .random-movie-details h2 {
@@ -103,21 +106,26 @@ body.light .random-movie {
 .random-movie-details p {
   font-size: 1.2rem;
   margin-bottom: 20px;
+  color: inherit; /* Inherit the color from the parent */
 }
 
 /* Buttons */
 .random-movie-button {
   padding: 10px 20px;
   background-color: var(--primary-color);
-  color: white;
+  color: var(--text-color-light); /* Default to light text color */
   text-decoration: none;
   border: none;
   border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
   font-size: 1.2rem;
   margin-right: 10px;
+}
+
+body.dark .random-movie-button {
+  color: var(--text-color-dark); /* Change to dark text color in dark mode */
 }
 
 .random-movie-button:hover {
@@ -134,10 +142,11 @@ body.light .random-movie {
   margin-bottom: 10px;
   font-size: 1.8rem;
   font-weight: bold;
-  color: inherit; /* Inherit the color from the body */
-
+  color: var(--category-text-color-light); /* Use the variable for light mode */
 }
-
+body.dark .movie-list-wrapper h2 {
+  color: var(--category-text-color-dark); /* Use the variable for dark mode */
+}
 .movie-list {
   display: flex;
   overflow-x: auto;
@@ -252,9 +261,41 @@ body.light .random-movie {
       width: 100%;
       height: 100%;
   }
-
   .random-movie-details {
       max-width: 100%;
       margin-top: 20px;
   }
 }
+/* Wrapper for centering the content */
+.play-movie-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensures content is centered vertically */
+}
+
+/* Container for video and title */
+.play-movie-container {
+  text-align: center;
+}
+
+/* Title Styling */
+.movie-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #bb1a1a; /* Use contrasting color for your dynamic background */
+  margin-bottom: 20px;
+}
+
+/* Video Styling */
+.movie-video {
+  max-width: 90%; /* Fits within smaller screens */
+  width: 800px; /* Default size for larger screens */
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.play-movie-container .movie-title {
+  color: #bb1a1a; /* Red color */
+}
+
