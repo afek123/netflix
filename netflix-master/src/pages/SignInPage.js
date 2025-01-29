@@ -27,7 +27,7 @@ const SignInPage = () => {
                 const { token } = res.data;
                 localStorage.setItem('jwt', token);
                 console.log('Signed in');
-                navigate('/mainPage');
+                navigate('/movies');
             })
             .catch((err) => {
                 console.log(err);
