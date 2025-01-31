@@ -14,6 +14,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -45,11 +46,13 @@ public interface ApiService {
     @Multipart
     Call<Movie> createMovie(
             @Part MultipartBody.Part movieFile,
-            @Part MultipartBody.Part thumbnailFile,
+            @Part MultipartBody.Part posterFile, // Renamed from thumbnailFile to match "posterUrl"
             @Part("title") RequestBody title,
             @Part("description") RequestBody description,
-            @Part("publisher") RequestBody publisher
+            @Part("publisher") RequestBody publisher,
+            @Part("promoted") RequestBody promoted // Boolean value (converted to RequestBody)
     );
+
 
     @GET("/api/movies/{id}")
     Call<Movie> getMovie(@Path("id") String movieId);
@@ -73,8 +76,8 @@ public interface ApiService {
     @GET("/api/categories/{id}")
     Call<Category> getCategory(@Path("id") String categoryId);
 
-    @PUT("/api/categories/{id}")
-    Call<Category> updateCategory(@Path("id") String categoryId, @Body Category category);
+    @PATCH("/api/categories/{id}")
+    Call<Void> updateCategory(@Path("id") String categoryId, @Body Category updatedCategory);
 
     @DELETE("/api/categories/{id}")
     Call<Void> deleteCategory(@Path("id") String categoryId);

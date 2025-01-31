@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 @Entity(tableName = "categories")
 public class Category {
 
@@ -12,6 +14,7 @@ public class Category {
     private int room_id; // Local primary key for Room
 
     @NonNull
+    @SerializedName("_id")  // If your API uses `_id`, change here
     private String id; // MongoDB ID
 
     private String name;

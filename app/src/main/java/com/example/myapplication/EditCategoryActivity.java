@@ -1,6 +1,5 @@
 package com.example.myapplication;
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -20,65 +19,72 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddCategoryActivity extends AppCompatActivity {
-    private EditText newCategoryNameEditText;
-    private CheckBox newCategoryPromotedCheckBox;
-    private Button addCategoryButton;
-    private boolean isLoading = false;
+public class EditCategoryActivity extends AppCompatActivity {
+    private EditText editCategoryNameEditText;
+    private CheckBox editCategoryPromotedCheckBox;
+    private Button updateCategoryButton;
 
+    private String categoryId;
     private ApiService apiService;
+    private boolean isLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_category);
+        setContentView(R.layout.activity_edit_category);
 
-        newCategoryNameEditText = findViewById(R.id.newCategoryName);
-        newCategoryPromotedCheckBox = findViewById(R.id.newCategoryPromoted);
-        addCategoryButton = findViewById(R.id.addCategoryButton);
+        editCategoryNameEditText = findViewById(R.id.editCategoryName);
+        editCategoryPromotedCheckBox = findViewById(R.id.editCategoryPromoted);
+        updateCategoryButton = findViewById(R.id.updateCategoryButton);
 
-        // Initialize Retrofit and ApiService
         apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        addCategoryButton.setOnClickListener(v -> handleAddCategory());
+        // Get category data from Intent
+        Intent intent = getIntent();
+        if (intent.hasExtra("category_id")) {
+            categoryId = intent.getStringExtra("category_id");
+            editCategoryNameEditText.setText(intent.getStringExtra("category_name"));
+            editCategoryPromotedCheckBox.setChecked(intent.getBooleanExtra("category_promoted", false));
+        } else {
+            Toast.makeText(this, "Error: No category data received!", Toast.LENGTH_SHORT).show();
+            finish(); // Close activity if no data is received
+            return;
+        }
+
+        updateCategoryButton.setOnClickListener(v -> handleUpdateCategory());
     }
 
-    // In AddCategoryActivity
-    private void handleAddCategory() {
-        if (isLoading) return; // Prevent multiple clicks
+    private void handleUpdateCategory() {
+        if (isLoading) return;
 
-        String newCategoryName = newCategoryNameEditText.getText().toString().trim();
-        boolean newCategoryPromoted = newCategoryPromotedCheckBox.isChecked();
+        String updatedCategoryName = editCategoryNameEditText.getText().toString().trim();
+        boolean isPromoted = editCategoryPromotedCheckBox.isChecked();
 
-        if (newCategoryName.isEmpty()) {
+        if (updatedCategoryName.isEmpty()) {
             Toast.makeText(this, "Category name is required!", Toast.LENGTH_SHORT).show();
             return;
         }
 
         isLoading = true;
-        addCategoryButton.setText("Adding...");
+        updateCategoryButton.setText("Updating...");
 
-        // Create category object
-        Category category = new Category(newCategoryName, newCategoryPromoted);
+        Category updatedCategory = new Category(categoryId, updatedCategoryName, isPromoted);
 
-        // Make Retrofit API call
-        Call<Void> call = apiService.createCategory(category);
+        Call<Void> call = apiService.updateCategory(categoryId, updatedCategory);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 isLoading = false;
-                addCategoryButton.setText("Add Category");
+                updateCategoryButton.setText("Update Category");
 
                 if (response.isSuccessful()) {
-                    // Success: Category added
-                    Toast.makeText(AddCategoryActivity.this, "Category added successfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditCategoryActivity.this, "Category updated successfully!", Toast.LENGTH_SHORT).show();
 
-                    // Return to ManageCategoriesActivity with a result
+                    // Send back to MainActivity
                     Intent returnIntent = new Intent();
                     setResult(RESULT_OK, returnIntent);
-                    finish(); // Close the activity and return to ManageCategoriesActivity
+                    finish(); // Return to MainActivity
                 } else {
-                    // Handle error response
                     handleError(response);
                 }
             }
@@ -89,6 +95,7 @@ public class AddCategoryActivity extends AppCompatActivity {
             }
         });
     }
+
     private void handleError(Response<Void> response) {
         try {
             String errorBody = response.errorBody().string();
@@ -102,6 +109,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
     private void showError(Throwable t) {
         isLoading = false;
+        updateCategoryButton.setText("Update Category");
         t.printStackTrace();
         Toast.makeText(this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
     }

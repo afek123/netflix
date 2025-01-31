@@ -13,6 +13,7 @@ roomCommon = "2.6.1"
 roomRuntime = "2.6.1"
 roomCompiler = "2.6.1"
 firebaseFirestore = "25.1.1"
+recyclerview = "1.4.0"
 
 [libraries]
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
@@ -29,6 +30,7 @@ room-common = { group = "androidx.room", name = "room-common", version.ref = "ro
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
