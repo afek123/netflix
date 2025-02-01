@@ -1,6 +1,6 @@
 package com.example.myapplication.adapters;
 
-import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,13 +39,24 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         Movie movie = movies.get(position);
         holder.bind(movie);
 
-        // Set click listener for the item view
+        // Set click listener for the item view (for updating)
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onMovieClick(movie);
+                Log.d("MoviesAdapter", "Update clicked for movie: " + movie.getTitle());
+                listener.onUpdateClick(movie); // Trigger update on normal click
             }
         });
+
+        // Set long click listener for deletion
+        holder.itemView.setOnLongClickListener(v -> {
+            if (listener != null) {
+                Log.d("MoviesAdapter", "Delete clicked for movie: " + movie.getTitle());
+                listener.onDeleteClick(movie); // Trigger delete on long click
+            }
+            return true; // Consume the long-click event
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -81,8 +92,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         }
     }
 
-    // Listener interface
+    // Listener interface for movie update and delete
     public interface OnMovieClickListener {
-        void onMovieClick(Movie movie);
+        void onUpdateClick(Movie movie); // For updating the movie
+        void onDeleteClick(Movie movie); // For deleting the movie
     }
 }

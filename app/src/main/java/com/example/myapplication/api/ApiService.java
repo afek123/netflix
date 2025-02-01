@@ -45,21 +45,27 @@ public interface ApiService {
     @POST("/api/movies")
     @Multipart
     Call<Movie> createMovie(
-            @Part MultipartBody.Part movieFile,
-            @Part MultipartBody.Part posterFile, // Renamed from thumbnailFile to match "posterUrl"
             @Part("title") RequestBody title,
-            @Part("description") RequestBody description,
-            @Part("publisher") RequestBody publisher,
-            @Part("promoted") RequestBody promoted // Boolean value (converted to RequestBody)
+            @Part("director") RequestBody director,
+            @Part("category") RequestBody category,  // Ensure this is a valid ObjectId string
+            @Part MultipartBody.Part videoFile,     // Correct field name
+            @Part MultipartBody.Part posterFile     // Correct field name
     );
 
 
     @GET("/api/movies/{id}")
     Call<Movie> getMovie(@Path("id") String movieId);
 
-    @PUT("/api/movies/{id}")
-    Call<Movie> updateMovie(@Path("id") String movieId, @Body Movie movie);
-
+    @Multipart
+    @PATCH("/api/movies/{id}")
+    Call<Movie> updateMovie(
+            @Path("id") String movieId,
+            @Part("title") RequestBody title,
+            @Part("director") RequestBody director,
+            @Part("categoryId") RequestBody categoryId,
+            @Part MultipartBody.Part videoUrl,
+            @Part MultipartBody.Part posterUrl
+    );
     @DELETE("/api/movies/{id}")
     Call<Void> deleteMovie(@Path("id") String movieId);
 

@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import com.example.myapplication.adapters.MoviesAdapter;
 import com.example.myapplication.api.ApiService;
 import com.example.myapplication.api.RetrofitClient;
 import com.example.myapplication.entities.Movie;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,27 +27,39 @@ public class ManageMoviesActivity extends AppCompatActivity implements MoviesAda
 
     private RecyclerView recyclerView;
     private MoviesAdapter moviesAdapter;
-    private List<Movie> movies = new ArrayList<>(); // Initialize the list
+    private List<Movie> movies = new ArrayList<>();
     private ApiService apiService;
+    private FloatingActionButton btnAddMovie;
+
+    private static final int ADD_MOVIE_REQUEST_CODE = 1; // Request code for adding a movie
+    private static final int UPDATE_MOVIE_REQUEST_CODE = 2; // Request code for updating a movie
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_movies);
 
-        // Initialize RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Initialize the adapter with the initialized list
-        moviesAdapter = new MoviesAdapter(movies, this); // Pass the initialized list
+        moviesAdapter = new MoviesAdapter(movies, this);
         recyclerView.setAdapter(moviesAdapter);
 
-        // Initialize Retrofit and ApiService
         apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
-        // Load movies from the API
+        btnAddMovie = findViewById(R.id.btnAddMovie);
+        btnAddMovie.setOnClickListener(v -> {
+            Intent intent = new Intent(ManageMoviesActivity.this, AddMovieActivity.class);
+            startActivityForResult(intent, ADD_MOVIE_REQUEST_CODE); // Use startActivityForResult to get result
+        });
+
         loadMovies();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadMovies();  // Refresh movie list when the activity resumes
     }
 
     private void loadMovies() {
@@ -53,19 +68,16 @@ public class ManageMoviesActivity extends AppCompatActivity implements MoviesAda
             @Override
             public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // Update the adapter with the fetched movies
                     movies.clear();
                     movies.addAll(response.body());
-                    moviesAdapter.notifyDataSetChanged(); // Refresh the RecyclerView
+                    moviesAdapter.notifyDataSetChanged();
                 } else {
-                    // Handle API error
                     handleError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Movie>> call, Throwable t) {
-                // Handle network failure
                 showError(t);
             }
         });
@@ -87,9 +99,22 @@ public class ManageMoviesActivity extends AppCompatActivity implements MoviesAda
     }
 
     @Override
-    public void onMovieClick(Movie movie) {
-        // Handle movie item clicks
-        deleteMovie(movie.getId());    }
+    public void onUpdateClick(Movie movie) {
+        // Log to verify it's triggered
+        Log.d("ManageMoviesActivity", "Navigating to UpdateMovieActivity with movie: " + movie.getTitle());
+
+        // Navigate to UpdateMovieActivity with the movie data
+        Intent intent = new Intent(ManageMoviesActivity.this, UpdateMovieActivity.class);
+        intent.putExtra("movie", movie); // Pass the movie object to the update activity
+        startActivityForResult(intent, UPDATE_MOVIE_REQUEST_CODE);
+    }
+
+
+    @Override
+    public void onDeleteClick(Movie movie) {
+        deleteMovie(movie.getId());
+    }
+
     private void deleteMovie(String movieId) {
         Call<Void> call = apiService.deleteMovie(movieId);
         call.enqueue(new Callback<Void>() {
@@ -97,7 +122,7 @@ public class ManageMoviesActivity extends AppCompatActivity implements MoviesAda
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(ManageMoviesActivity.this, "Movie deleted successfully!", Toast.LENGTH_SHORT).show();
-                    loadMovies(); // Refresh the list
+                    loadMovies();
                 } else {
                     Toast.makeText(ManageMoviesActivity.this, "Failed to delete movie!", Toast.LENGTH_SHORT).show();
                 }
@@ -108,5 +133,31 @@ public class ManageMoviesActivity extends AppCompatActivity implements MoviesAda
                 Toast.makeText(ManageMoviesActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-}
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ADD_MOVIE_REQUEST_CODE && resultCode == RESULT_OK) {
+            loadMovies();  // Refresh the movie list after adding a new movie
+        } else if (requestCode == UPDATE_MOVIE_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data != null) {
+                Movie updatedMovie = (Movie) data.getSerializableExtra("updatedMovie");
+                if (updatedMovie != null) {
+                    updateMovieInList(updatedMovie); // Update the movie in the list
+                }
+            }
+        }
+    }
+
+    private void updateMovieInList(Movie updatedMovie) {
+        for (int i = 0; i < movies.size(); i++) {
+            if (movies.get(i).getId().equals(updatedMovie.getId())) {
+                movies.set(i, updatedMovie); // Replace the old movie with the updated one
+                moviesAdapter.notifyItemChanged(i); // Notify the adapter of the change
+                break;
+            }
+        }
+    }
 }

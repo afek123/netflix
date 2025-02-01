@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,43 +8,57 @@
     <EditText
         android:id="@+id/titleEditText"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-    android:hint="Title" />
-
-    <EditText
-        android:id="@+id/descriptionEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-    android:hint="Description" />
-
-    <EditText
-        android:id="@+id/publisherEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-    android:hint="Publisher" />
-
-    <CheckBox
-        android:id="@+id/promotedCheckBox"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Promoted" />
+        android:minHeight="48dp"
+    android:paddingVertical="12dp"
+    android:hint="@string/title"
+    android:inputType="text"
+    android:gravity="center_vertical" />
 
-    <Button
-        android:id="@+id/selectMovieButton"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/directorEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+    android:paddingVertical="12dp"
+    android:hint="@string/director"
+    android:inputType="text"
+    android:gravity="center_vertical" />
+
+    <!-- Category Dropdown -->
+    <Spinner
+        android:id="@+id/categorySpinner"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="Select Movie File" />
+        android:prompt="@string/select_a_category" />
 
+    <!-- Video File Picker -->
+    <Button
+        android:id="@+id/selectVideoButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/select_video_file" />
+
+    <!-- Poster File Picker -->
     <Button
         android:id="@+id/selectPosterButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="Select Poster File" />
+        android:text="@string/select_poster_file" />
 
+    <!-- Add Movie Button -->
     <Button
-        android:id="@+id/saveMovieButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/addMovieButton"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="Save Movie" />
+        android:text="@string/add_movie" />
+
+    <!-- Error Message -->
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone" />
 
 </LinearLayout>

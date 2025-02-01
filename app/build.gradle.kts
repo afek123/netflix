@@ -54,6 +54,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     annotationProcessor(libs.room.compiler)
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
     implementation ("com.github.bumptech.glide:glide:4.16.0") // Use the latest version
     implementation ("androidx.recyclerview:recyclerview:1.3.2") // Use the latest version
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

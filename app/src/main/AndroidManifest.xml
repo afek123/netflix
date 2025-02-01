@@ -49,6 +49,11 @@
         <!-- ManageMoviesActivity -->
         <activity android:name=".ManageMoviesActivity"
             android:exported="false"/>
+        <activity android:name=".AddMovieActivity"
+            android:exported="false"/>
+        <activity android:name=".UpdateMovieActivity"
+            android:exported="false"/>
+
 
 
     </application>
