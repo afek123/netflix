@@ -1,13 +1,3 @@
-body.light {
-  background-color: var(--background-color-light);
-  color: var(--text-color-light);
-}
-
-body.dark {
-  background-color: var(--background-color-dark);
-  color: var(--text-color-dark);
-}
-
 .theme-toggle-button {
   position: fixed;
   top: 10px;

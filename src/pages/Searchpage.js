@@ -74,14 +74,22 @@ const SearchPage = () => {
                   onClick={() => handleMovieClick(result._id)} // Add click handler
                 >
                   <img
-                    src={result.posterUrl || `https://via.placeholder.com/150x225?text=${result.title}`}
+                    src={
+                      result.posterUrl
+                        ? `http://localhost:5000${result.posterUrl}`
+                        : `https://via.placeholder.com/150x225?text=${result.title}`
+                    }
                     alt={result.title}
                     className="poster"
                   />
                   <h2 className="resultTitle">{result.title}</h2>
+                  <p className="resultDirector">
+                    Director: {result.director || "Unknown"}
+                  </p>
                   <p className="resultCategory">
                     Category: {categories[result.category] || "Unknown"}
                   </p>
+                  
                 </div>
               ))}
             </div>

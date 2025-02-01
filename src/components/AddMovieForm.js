@@ -51,7 +51,17 @@ const AddMovieForm = ({
   
       if (!response.ok) throw new Error('Failed to add the movie');
       const data = await response.json();
-      console.log('Movie added:', data);
+      // Once the movie is added successfully, pass the data to handleAddSubmit
+      handleSubmit(data);  // Passing the newly created movie to handleAddSubmit
+
+    // Reset form fields
+    setTitle("");
+    setDirector("");
+    setCategory("");
+    setVideoFile(null);
+    setPosterFile(null);
+
+    console.log('Movie added:', data);
     } catch (err) {
       console.error('Error:', err);
     }

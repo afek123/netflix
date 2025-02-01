@@ -14,13 +14,21 @@ function MovieItem({ movie }) {
       {isHovered ? (
         <div className="hover-content">
           <video className="movie-video" controls>
-            <source src={movie.videoUrl} type="video/mp4" />
-            Your browser does not support the video tag.
+           <source src={`http://localhost:5000${movie.videoUrl}`} type="video/mp4" />
+          Your browser does not support the video tag.
           </video>
           <Link to={`/movie/${movie._id}`} className="see-details-button btn btn-danger">See Details</Link>
         </div>
       ) : (
-        <img src={movie.posterUrl} alt={movie.title} className="movie-poster" />
+        <img
+          src={
+            movie.posterUrl
+              ? `http://localhost:5000${movie.posterUrl}` // Use the correct URL for the uploaded poster
+              : `https://via.placeholder.com/150x225?text=${movie.title}`
+          }
+          alt={movie.title || "Untitled"}
+          className="poster"
+        />
       )}
     </div>
   );

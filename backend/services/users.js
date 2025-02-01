@@ -34,6 +34,9 @@ const addMovieToWatched = async (userId, movieId) => {
         throw new Error('Movie not found');
     }
     // Add movie to user's watched list
+    if(movie.watchedBy.includes(userId)){
+        throw new Error('Movie already exists in the watched list');
+    }
     user.watchlist.push(movieId);
     await user.save();
 

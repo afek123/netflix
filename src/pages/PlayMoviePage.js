@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMovieById } from '../services/movieService';
-import "../styles/styles.css";
+import "../styles/MoviePage.css";
 
 function PlayMoviePage() {
   const { id } = useParams(); // Get movie ID from URL
@@ -34,8 +34,10 @@ function PlayMoviePage() {
       <div className="play-movie-container">
         <h1 className="movie-title">{movie.title}</h1>
         <video className="movie-video" controls>
-          <source src={movie.videoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
+        <source
+          src={`http://localhost:5000${movie.videoUrl}`} // Use the correct URL for the uploaded video
+          type="video/mp4"
+        />          Your browser does not support the video tag.
         </video>
       </div>
     </div>

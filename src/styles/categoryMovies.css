@@ -1,55 +1,54 @@
 .category-movies {
-    margin-bottom: 30px;
-  }
-  
-  .category-title {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: var(--category-text-color-light); /* Use the variable for light mode */
-  }
-  body.dark .category-title {
-    color: var(--category-text-color-dark); /* Use the variable for dark mode */
-  }
-  .movie-row-container {
-    position: relative;
-  }
-  
-  .movie-scroll {
-    display: flex;
-    overflow-x: scroll;
-    scroll-behavior: smooth;
-    padding-bottom: 10px;
-  }
-  
-  .movie-scroll::-webkit-scrollbar {
-    display: none; /* Hides the scrollbar */
-  }
-  
-  .scroll-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 10px;
-    font-size: 2rem;
-    z-index: 10;
-    border-radius: 50%;
-  }
-  
-  .left-btn {
-    left: 0;
-  }
-  
-  .right-btn {
-    right: 0;
-  }
-  
-  .scroll-btn:hover {
-    background-color: rgba(255, 255, 255, 0.7);
-    color: black;
-  }
-  
+  margin-bottom: 30px;
+}
+
+.category-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--category-text-color-light); /* Use the variable for light mode */
+}
+body.dark .category-title {
+  color: var(--category-text-color-dark); /* Use the variable for dark mode */
+}
+.movie-row-container {
+  position: relative;
+}
+
+.movie-scroll {
+  display: flex;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+}
+
+.movie-scroll::-webkit-scrollbar {
+  display: none; /* Hides the scrollbar */
+}
+
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 2rem;
+  z-index: 10;
+  border-radius: 50%;
+}
+
+.left-btn {
+  left: 0;
+}
+
+.right-btn {
+  right: 0;
+}
+
+.scroll-btn:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+  color: black;
+}

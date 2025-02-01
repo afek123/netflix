@@ -7,7 +7,7 @@ function RandomMovie({ movie }) {
     <div className="random-movie">
       <div class="random-movie-video">
         <video autoPlay muted loop>
-        <source src={movie.videoUrl} type="video/mp4" />
+        <source src={`http://localhost:5000${movie.videoUrl}`} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       </div>

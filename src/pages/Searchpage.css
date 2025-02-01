@@ -127,7 +127,11 @@ body.dark .pageContainer {
   font-size: 14px;
   color: #aaa;
 }
-
+/* Category text styling */
+.resultDirector {
+  font-size: 14px;
+  color: #aaa;
+}
 /* Hover effect content overlay */
 .resultItem .hoverOverlay {
   position: absolute;

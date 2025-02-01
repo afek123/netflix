@@ -1,16 +1,26 @@
+const { create } = require('../models/users');
 const userService = require('../services/users');
+const createJWT = require('../utils/jwt');
+const { createToken } = require('../utils/jwt');
+
 
 // Register a new user
 const registerUser = async (req, res) => {
-    const { username, password, name, picture } = req.body;
-    if (!username || !password || !name || !picture) {
-        return res.status(400).json({ error: 'Username, password, name and picture are required' });
-    }
     try {
-        const user = await userService.createUser(req.body);
+        console.log('Request Body:', req.body);
+        console.log('Uploaded File:', req.files);
+
+        const { username, password, name } = req.body;
+        const picture = req.files.picture ? `/profilePictures/${req.files.picture[0].filename}` : null;
+
+        if (!username || !password || !name || !picture) {
+            return res.status(400).json({ error: 'Username, password, name and picture are required' });
+        }
+        const user = await userService.createUser({ username, password, name, picture });
         res.status(201).json(user);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to create user' });
     }
 };
 
@@ -38,7 +48,9 @@ const loginUser = async (req, res) => {
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
-        res.status(200).json(user);
+        const token = createJWT(user);
+        console.log('Token:', token);
+        res.status(200).json({ token , userId: user._id ,role: user.role});
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

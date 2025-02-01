@@ -1,32 +1,56 @@
 /* General Body Styling */
-body {
+body.light .content {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: var(--background-color-light);
   color: var(--text-color-light);
 }
 
-body.dark {
+body.dark .content {
+  margin: 0;
+  font-family: Arial, sans-serif;
   background-color: var(--background-color-dark);
   color: var(--text-color-dark);
 }
-
-header {
-  background: rgba(0, 0, 0, 0.8);
-  padding: 10px 20px;
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
   position: fixed;
-  width: 100%;
-  z-index: 10;
+  width: 91%;
+  top: 0;
+  padding: 10px 20px;
+  background-color: #e50914;
+  color: white;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 1000; /* Ensure it stays on top */
 }
 
-header .navbar-brand {
-  font-size: 24px;
-  color: var(--text-color-dark); /* Ensure the text color adapts to the theme */
-}
-body.light header .navbar-brand {
-  color: var(--text-color-light); /* Ensure the text color adapts to the theme */
+.navigation-buttons button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
+
+/* Profile Preview Styling */
+.profile-preview-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.profile-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 2px solid var(--primary-color);
+}
 /* Headers */
 h1 {
   text-align: center;
@@ -40,10 +64,9 @@ h2 {
   margin: 20px;
   font-size: 1.8rem;
   font-weight: bold;
-  color: inherit; /* Inherit the color from the body */
+  color: #fff;
 
 }
-
 /* Random Movie Section */
 .random-movie {
   position: relative;
@@ -52,17 +75,17 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: flex-start; /* Align text to the left */
-  padding: 0 5%; /* Space from the left edge */
   background: black;
   color: var(--text-color-dark); /* Ensure the text color adapts to the theme */
   overflow: hidden;
+  margin-top: 1315px; /* Start 200px down from the top of the page */
 }
 body.light .random-movie {
   color: var(--text-color-light); /* Ensure the text color adapts to the theme */
 }
 /* Background Image or Video */
-.random-movie-video video, 
-.random-movie-video img {
+.random-movie-video video
+ {
   position: absolute;
   top: 0;
   left: 0;
@@ -287,7 +310,7 @@ body.dark .movie-list-wrapper h2 {
   margin-bottom: 20px;
 }
 
-/* Video Styling */
+/* Video Sling */
 .movie-video {
   max-width: 90%; /* Fits within smaller screens */
   width: 800px; /* Default size for larger screens */
@@ -298,4 +321,6 @@ body.dark .movie-list-wrapper h2 {
 .play-movie-container .movie-title {
   color: #bb1a1a; /* Red color */
 }
+
+
 

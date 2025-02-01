@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchMovieById } from "../services/movieService";
+import { fetchMovieById, fetchCategories } from "../services/movieService";
 import { addMovieToWatched } from "../services/userService";
 import "./MoviePage.css"; // Import the CSS file
 
 function MoviePage() {
   const { id } = useParams(); // Get movie ID from URL
   const [movie, setMovie] = useState(null); // State to store the current movie
+  const [categories, setCategories] = useState({}); // State to store categories
   const navigate = useNavigate(); // For navigation
 
   useEffect(() => {
@@ -19,7 +20,21 @@ function MoviePage() {
       }
     };
 
+    const getCategories = async () => {
+      try {
+        const categoriesData = await fetchCategories(); // Fetch categories
+        const categoryMap = categoriesData.reduce((map, category) => {
+          map[category._id] = category.name;
+          return map;
+        }, {});
+        setCategories(categoryMap); // Set categories data
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
+
     getMovieDetails();
+    getCategories();
   }, [id]); // Re-run effect if the movie ID changes
 
   if (!movie) {
@@ -32,7 +47,8 @@ function MoviePage() {
 
   const handlePlayClick = async () => {
     try {
-      const userId = "6795112050cfff934593584b"; // Replace with the actual user ID
+      console.log(`Navigating to /play/${movie._id}`); // Log the navigation
+      const userId = localStorage.getItem('userId'); // Get the user ID from local storage
       await addMovieToWatched(userId, movie._id); // Add movie to user's watchlist
       navigate(`/play/${movie._id}`); // Navigate to the play screen using useNavigate
     } catch (error) {
@@ -47,8 +63,13 @@ function MoviePage() {
           {/* Movie Poster */}
           <div className="movie-poster">
             <img
-              src={movie.posterUrl || "https://via.placeholder.com/300x450"}
-              alt={movie.title}
+              src={
+                movie.posterUrl
+                  ? `http://localhost:5000${movie.posterUrl}` // Use the correct URL for the uploaded poster
+                  : `https://via.placeholder.com/150x225?text=${movie.title}`
+              }
+              alt={movie.title || "Untitled"}
+              className="poster"
             />
           </div>
 
@@ -64,7 +85,7 @@ function MoviePage() {
               <h3>Category:</h3>
               <div className="category-tag">
                 {movie.category ? (
-                  <span>{movie.category}</span>
+                  <span>{categories[movie.category] || "Unknown"}</span>
                 ) : (
                   <span className="no-category">No category available</span>
                 )}

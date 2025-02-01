@@ -2,6 +2,9 @@
   --background-color-light: #f4f4f4;
   --text-color-light: #000; /* Black text for light mode */
   --background-color-dark: #141414;
+  --button-text-color-light: #000000; /* Black text for light mode */
+  --button-text-color-dark: #ffffff; /* White text for dark mode */
+ 
   --text-color-dark: #fff; /* White text for dark mode */
   --primary-color: #e50914;
   --primary-color-hover: #f40612;
@@ -16,11 +19,14 @@
 body.light {
   background-color: var(--background-color-light);
   color: var(--text-color-light);
+  --button-text-color: var(--button-text-color-light);
 }
 
 body.dark {
   background-color: var(--background-color-dark);
   color: var(--text-color-dark);
+  --button-text-color: var(--button-text-color-dark);
+
 }
 
 h1, h3 {
