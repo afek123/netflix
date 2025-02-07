@@ -10,6 +10,7 @@ import DeleteCategoryForm from "../components/DeleteCategoryForm";
 import UpdateCategoryForm from "../components/UpdateCategoryForm";
 import "./ManagerPage.css";
 import { useNavigate } from "react-router-dom";
+import ThemeToggleButton from '../components/ThemeToggleButton';
 
 function ManagerPage() {
   const [mode, setMode] = useState("add");
@@ -224,6 +225,7 @@ function ManagerPage() {
           handleEdit={handleEdit}
         />
       )}
+      <ThemeToggleButton />
     </div>
   );
 }

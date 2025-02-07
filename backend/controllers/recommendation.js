@@ -5,15 +5,14 @@ const getRecommendations = async (req, res) => {
     try {
         const userId = req.params.userId; // Extract userId from route
         const movieId = req.params.movieId; // Extract movieId from route
-
         // Fetch raw recommendations from the recommendation server
+
         const recommendationResponse = await recommendationService.getRecommendations(userId, movieId);
 
         // Check if the response indicates "404 Not Found"
         if (recommendationResponse === "404 Not Found") {
             return res.status(404).json({ error: "No recommendations found" });
         }
-
         // Check if the response indicates "200 OK" and contains movie IDs
         if (recommendationResponse.startsWith("200 OK")) {
             // Extract movie IDs from the response (after "\n\n")
@@ -54,7 +53,7 @@ const getRecommendations = async (req, res) => {
                 return res.status(404).json({ error: "No valid recommendations found" });
             }
 
-            res.status(200).json({ recommendations: validMovies });
+            res.status(200).json(validMovies );
         } else {
             // Handle unexpected response
             return res.status(500).json({ error: "Unexpected response format" });

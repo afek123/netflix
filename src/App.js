@@ -9,7 +9,6 @@ const App = () => {
     <ThemeProvider>
       <Router>
         <div className="App">
-          <ThemeToggle />
           <AppRouter />
         </div>
       </Router>

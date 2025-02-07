@@ -28,7 +28,7 @@ h2 {
 button {
   width: 100%;
   padding: 10px;
-  background-color: #e50914;
+  background-color: #e50914 !important;
   border: none;
   border-radius: 5px;
   color: var(--button-text-color);

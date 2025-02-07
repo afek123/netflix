@@ -16,13 +16,25 @@ const categories = await response.json();
 return categories;
 };
 export const fetchMovieById = async (id) => {
-const response = await fetch(`http://localhost:5000/api/movies/${id}`);
-if (!response.ok) {
-  throw new Error('Failed to fetch movie');
-}
-const movie = await response.json();
-return movie;
+  const response = await fetch(`http://localhost:5000/api/movies/${id}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch movie');
+  }
+  return response.json();
 };
+
+export const fetchMovieRecommendations = async (userId, movieId) => {
+  const response = await fetch(
+    `http://localhost:5000/api/movies/${userId}/${movieId}/recommend`);
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch recommendations');
+  }
+
+  return response.json();
+};
+
+
 
 
 export const addMovie = async (formData) => {

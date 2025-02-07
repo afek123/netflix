@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect, useRef}  from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchMovies, fetchCategories } from "../services/movieService";
 import CategoryMovies from "../components/CategoryMovies";
@@ -12,8 +12,14 @@ function HomePage() {
   const [randomMovie, setRandomMovie] = React.useState(null);
   const [profilePicture, setProfilePicture] = React.useState(null); // State for profile picture
   const navigate = useNavigate();
-
-  React.useEffect(() => {
+  const toggleButtonRef = useRef(null);
+  useEffect(() => {
+    // Programmatically click the toggle button to synchronize the background image
+    if (toggleButtonRef.current) {
+        toggleButtonRef.current.click();
+    }
+}, []);
+  useEffect(() => {
     const getData = async () => {
       try {
         const [categoriesData, moviesData] = await Promise.all([
@@ -32,9 +38,11 @@ function HomePage() {
         if (storedProfilePicture) {
           setProfilePicture(storedProfilePicture);
         } else {
-          // Fetch from API if not in local storage
-          // const profilePictureData = await fetchProfilePicture();
-          // setProfilePicture(profilePictureData);
+          const userId = localStorage.getItem('userId');
+          const response = await fetch(`http://localhost:5000/api/users/${userId}`);
+          const userData = await response.json();
+          setProfilePicture(`http://localhost:5000${userData.picture}`);
+          localStorage.setItem('profilePicture', `http://localhost:5000${userData.picture}`);
         }
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -45,6 +53,11 @@ function HomePage() {
 
   return (
     <div className="content">
+      {profilePicture && (
+        <div className="profile-preview-container">
+          <img src={profilePicture} alt="Profile Preview" className="profile-preview-movie" />
+        </div>
+      )}
       {randomMovie && <RandomMovie movie={randomMovie} />}
       {categories.map((category) => {
         const categoryMovies = movies.filter((movie) =>
@@ -63,7 +76,7 @@ function HomePage() {
         <button onClick={() => navigate("/manager")}>Go to Manager Page</button>
         <button onClick={() => navigate("/search")}>Go to Search Page</button>
       </div>
-      <ThemeToggleButton />
+      <ThemeToggleButton ref={toggleButtonRef} />
     </div>
   );
 }

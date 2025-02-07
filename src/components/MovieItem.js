@@ -13,7 +13,7 @@ function MovieItem({ movie }) {
     >
       {isHovered ? (
         <div className="hover-content">
-          <video className="movie-video" controls>
+          <video className="movie-video" autoPlay muted loop>
            <source src={`http://localhost:5000${movie.videoUrl}`} type="video/mp4" />
           Your browser does not support the video tag.
           </video>

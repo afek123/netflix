@@ -58,7 +58,7 @@ const loginUser = async (req, res) => {
 // Add movie to watched list
 const addMovieToWatched = async (req, res) => {
     try {
-        const { userId, movieId } = req.body;
+        const { userId, movieId } = req.params;
         if (!userId || !movieId) {
             return res.status(400).json({ error: 'User ID and Movie ID are required' });
         }

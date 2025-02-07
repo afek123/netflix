@@ -1,9 +1,17 @@
-import React from 'react';
+import React,{useEffect, useRef} from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/HomePage.css';
 import ThemeToggleButton from '../components/ThemeToggleButton';
 
 const HomePage = () => {
+    const toggleButtonRef = useRef(null);
+
+    useEffect(() => {
+        // Programmatically click the toggle button to synchronize the background image
+        if (toggleButtonRef.current) {
+            toggleButtonRef.current.click();
+        }
+    }, []);
     return (
         <div className="homepage-background">
             <div className="homepage-content">
@@ -17,8 +25,8 @@ const HomePage = () => {
                     <button>Sign Up</button>
                 </Link>
             </div>
-            <ThemeToggleButton />
-        </div>
+            <ThemeToggleButton ref={toggleButtonRef} />
+            </div>
         </div>
     );
 }

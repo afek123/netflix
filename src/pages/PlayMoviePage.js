@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import { fetchMovieById } from '../services/movieService';
 import "../styles/MoviePage.css";
 
 function PlayMoviePage() {
   const { id } = useParams(); // Get movie ID from URL
   const [movie, setMovie] = useState(null); // State to store the current movie
+  const navigate = useNavigate(); // For navigation
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -17,7 +18,6 @@ function PlayMoviePage() {
         console.error('Failed to fetch movie details:', error);
       }
     };
-
     getMovieDetails();
   }, [id]); // Re-run effect if the movie ID changes
 
@@ -39,6 +39,9 @@ function PlayMoviePage() {
           type="video/mp4"
         />          Your browser does not support the video tag.
         </video>
+        <button className="back-button" onClick={() => navigate('/movies')}>
+        Back to Movies
+        </button>
       </div>
     </div>
   );

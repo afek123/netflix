@@ -1,4 +1,4 @@
-/* General Body Styling */
+/* General Body Stylings */
 body.light .content {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -16,9 +16,10 @@ body.dark .content {
   display: flex;
   justify-content: space-between;
   position: fixed;
-  width: 91%;
-  top: 0;
+  width: 87.8%;
+  height: 95px;
   padding: 10px 20px;
+  top: 0;
   background-color: #e50914;
   color: white;
   border: none;
@@ -32,24 +33,22 @@ body.dark .content {
   background: none;
   border: none;
   color: white;
-  font-size: 1rem;
+  font-size: 2rem;
   cursor: pointer;
 }
-
-
-/* Profile Preview Styling */
-.profile-preview-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
+.navigation-buttons button:hover {
+  background-color: #f40612;
 }
-
-.profile-preview {
-  width: 100px;
-  height: 100px;
+.profile-preview-movie {
+  display: flex;
+  position: fixed;
+  top: 0px;
+  right: 8.1%; /* Align it to the right side */
+  width: 80px; /* Adjust the size as needed */
+  height: 95px; /* Adjust the size as needed */
   object-fit: cover;
-  border: 2px solid var(--primary-color);
+  border-radius: 0; /* Remove border-radius to make it square or rectangular */
+  z-index: 1001; /* Ensure it stays on top of other elements */
 }
 /* Headers */
 h1 {
@@ -75,10 +74,10 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: flex-start; /* Align text to the left */
-  background: black;
   color: var(--text-color-dark); /* Ensure the text color adapts to the theme */
   overflow: hidden;
-  margin-top: 1315px; /* Start 200px down from the top of the page */
+  margin-top: 680px; /* Adjust this value if needed to place it under the navigation button, theme toggle button, and profile picture */
+  
 }
 body.light .random-movie {
   color: var(--text-color-light); /* Ensure the text color adapts to the theme */
@@ -86,26 +85,14 @@ body.light .random-movie {
 /* Background Image or Video */
 .random-movie-video video
  {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: cover;
   z-index: 0;
 }
 
-/* Dark Overlay for Readability */
-.random-movie::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3));
-  z-index: 1;
-}
+
 
 /* Movie Details */
 .random-movie-details {
@@ -120,10 +107,15 @@ body.light .random-movie-details {
 }
 
 .random-movie-details h2 {
+  padding: 10px 20px;
+  color: var(--text-color-light); /* Default to light text color */
+  transition: background-color 0.3s, color 0.3s;
   font-size: 3rem;
   font-weight: bold;
-  margin-bottom: 20px;
   color: inherit; /* Inherit the color from the parent */
+}
+body.dark .random-movie-details h2 {
+  color: var(--text-color-dark); /* Change to dark text color in dark mode */
 }
 
 .random-movie-details p {
@@ -288,38 +280,6 @@ body.dark .movie-list-wrapper h2 {
       max-width: 100%;
       margin-top: 20px;
   }
-}
-/* Wrapper for centering the content */
-.play-movie-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* Ensures content is centered vertically */
-}
-
-/* Container for video and title */
-.play-movie-container {
-  text-align: center;
-}
-
-/* Title Styling */
-.movie-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #bb1a1a; /* Use contrasting color for your dynamic background */
-  margin-bottom: 20px;
-}
-
-/* Video Sling */
-.movie-video {
-  max-width: 90%; /* Fits within smaller screens */
-  width: 800px; /* Default size for larger screens */
-  height: auto;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-.play-movie-container .movie-title {
-  color: #bb1a1a; /* Red color */
 }
 
 

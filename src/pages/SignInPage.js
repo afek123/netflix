@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect,useState,useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/SignInPage.css';
@@ -7,7 +7,14 @@ const SignInPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const toggleButtonRef = useRef(null);
 
+    useEffect(() => {
+        // Programmatically click the toggle button to synchronize the background image
+        if (toggleButtonRef.current) {
+            toggleButtonRef.current.click();
+        }
+    }, []);
     const handleSignIn = (e) => {
         e.preventDefault();
         if (!username || !password) {
@@ -58,7 +65,7 @@ const SignInPage = () => {
                 <button type="submit">Sign In</button>
             </form>
             <button onClick={() => navigate('/signup')}>new to NETFLIX? sign up now!</button>
-            <ThemeToggleButton />
+            <ThemeToggleButton ref={toggleButtonRef} />
         </div>
     );
 };

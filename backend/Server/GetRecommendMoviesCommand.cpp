@@ -69,9 +69,12 @@ vector<string> GetRecommendMoviesCommand::recommend(string userId, string movieI
 
         int sim = similarity(userId, otherUserId);
         if (sim == 0 || !didUserWatchMovie(otherUserId, movieId)) continue;
-
+        cout << "pass if: " <<endl;
         for (const string& movie : movies) {
+            cout << "others users: " << movie << endl;
+
             if (!didUserWatchMovie(userId, movie) && movie != movieId) {
+                cout << "pass if 2: " <<endl;
                 movieRelevance[movie] += sim;
             }
         }
@@ -94,7 +97,6 @@ vector<string> GetRecommendMoviesCommand::recommend(string userId, string movieI
     for (const auto& [movieId, _] : sortedMovies) {
         result.push_back(movieId);
     }
-
     return result;
 }
 
@@ -115,11 +117,20 @@ string GetRecommendMoviesCommand::execute(const string& args) {
     Db db;
     userMovies = db.loadFromFile(db.getFileName());
     if (!isUserExist(userId)) {
+        cout << "user not exist " << endl;
         return "404 Not Found\n";
+    }
+    for (const auto& [user, movies] : userMovies) {
+        cout << "User: " << user << " Movies: ";
+        for (const auto& movie : movies) {
+            cout << movie << " ";
+        }
+        cout << endl;
     }
     
     vector<string> recommendedMovies = recommend(userId, movieId);
     if (recommendedMovies.empty()) {
+        cout << "not have recommend " << endl;
         return "404 Not Found\n";
     }
 

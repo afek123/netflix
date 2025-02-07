@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchMovies, fetchCategories } from "../services/movieService";
 import './Searchpage.css';
+import ThemeToggleButton from '../components/ThemeToggleButton';
 
 const SearchPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -58,7 +59,7 @@ const SearchPage = () => {
             placeholder="Enter movie name"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="input"
+            className="input-search"
           />
           <button onClick={handleSearch} className="button">
             Search
@@ -98,6 +99,7 @@ const SearchPage = () => {
           )}
         </div>
       </div>
+      <ThemeToggleButton />
     </div>
   );
 };

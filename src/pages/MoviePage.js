@@ -1,41 +1,63 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef} from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchMovieById, fetchCategories } from "../services/movieService";
+import { fetchMovieById, fetchCategories, fetchMovieRecommendations} from "../services/movieService";
 import { addMovieToWatched } from "../services/userService";
 import "./MoviePage.css"; // Import the CSS file
+import ThemeToggleButton from '../components/ThemeToggleButton';
 
 function MoviePage() {
   const { id } = useParams(); // Get movie ID from URL
   const [movie, setMovie] = useState(null); // State to store the current movie
   const [categories, setCategories] = useState({}); // State to store categories
   const navigate = useNavigate(); // For navigation
+  const [recommendedMovies, setRecommendedMovies] = useState([]); // State to store recommended movies
+  const toggleButtonRef = useRef(null);
 
   useEffect(() => {
     const getMovieDetails = async () => {
       try {
-        const movieData = await fetchMovieById(id); // Fetch movie by ID
-        setMovie(movieData); // Set movie data
+        const userId = localStorage.getItem('userId');
+        const movie = await fetchMovieById(id);
+        setMovie(movie);
+        // רק אם יש userId נטען המלצות
+        if (userId) {
+          const recommendedMovies = await fetchMovieRecommendations(userId, id);
+          console.log("Recommended movies:", recommendedMovies);
+          const arr = [0, 12, 3, 4];
+          console.log(recommendedMovies.length > 0);
+          setRecommendedMovies(recommendedMovies);
+        }
       } catch (error) {
         console.error("Failed to fetch movie details:", error);
       }
     };
-
+  
+    getMovieDetails();
+  }, [id]);
+  useEffect(() => {
+    // Programmatically click the toggle button to synchronize the background image
+    if (toggleButtonRef.current) {
+        toggleButtonRef.current.click();
+    }
+}, []);
+  
+  useEffect(() => {
     const getCategories = async () => {
       try {
-        const categoriesData = await fetchCategories(); // Fetch categories
+        const categoriesData = await fetchCategories(); // קריאה לקטגוריות
         const categoryMap = categoriesData.reduce((map, category) => {
           map[category._id] = category.name;
           return map;
         }, {});
-        setCategories(categoryMap); // Set categories data
+        setCategories(categoryMap);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
       }
     };
-
-    getMovieDetails();
+  
     getCategories();
-  }, [id]); // Re-run effect if the movie ID changes
+  }, []); 
+  
 
   if (!movie) {
     return (
@@ -46,14 +68,10 @@ function MoviePage() {
   }
 
   const handlePlayClick = async () => {
-    try {
       console.log(`Navigating to /play/${movie._id}`); // Log the navigation
       const userId = localStorage.getItem('userId'); // Get the user ID from local storage
       await addMovieToWatched(userId, movie._id); // Add movie to user's watchlist
       navigate(`/play/${movie._id}`); // Navigate to the play screen using useNavigate
-    } catch (error) {
-      console.error("Failed to add movie to watchlist:", error);
-    }
   };
 
   return (
@@ -98,7 +116,33 @@ function MoviePage() {
             </button>
           </div>
         </div>
+
+        {/* Recommended Movies */}
+        <div className="recommended-movies">
+          <h2>Recommended Movies</h2>
+          <div className="recommended-movies-list">
+          {recommendedMovies.length > 0 ? (
+              recommendedMovies.map((recommendedMovie) => (
+                <div key={recommendedMovie._id} className="recommended-movie-item">
+                  <img
+                    src={
+                      recommendedMovie.posterUrl
+                        ? `http://localhost:5000${recommendedMovie.posterUrl}`
+                        : `https://via.placeholder.com/150x225?text=${recommendedMovie.title}`
+                    }
+                    alt={recommendedMovie.title || "Untitled"}
+                    className="recommended-movie-poster"
+                  />
+                  <h3>{recommendedMovie.title}</h3>
+                </div>
+              ))
+            ) : (
+              <p>No recommended movies available.</p>
+            )}
+          </div>
+        </div>
       </div>
+      <ThemeToggleButton ref={toggleButtonRef} />
     </div>
   );
 }
