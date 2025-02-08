@@ -71,7 +71,7 @@ public class UpdateMovieActivity extends AppCompatActivity {
             titleEditText.setText(movieToUpdate.getTitle());
             directorEditText.setText(movieToUpdate.getDirector());
             // Assuming `getCategoryId()` gives you the category ID
-            int categoryIndex = getCategoryIndexById(movieToUpdate.getCategory().getId());
+            int categoryIndex = getCategoryIndexById(movieToUpdate.getCategoryIds().get(0)); // Assuming it's a single category ID
             categorySpinner.setSelection(categoryIndex);
         }
 

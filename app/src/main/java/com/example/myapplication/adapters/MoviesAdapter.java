@@ -1,5 +1,4 @@
 package com.example.myapplication.adapters;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,17 +11,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
+import com.example.myapplication.entities.Category;
 import com.example.myapplication.entities.Movie;
 
 import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
     private List<Movie> movies;
+    private List<Category> categories; // Add this
     private OnMovieClickListener listener;
 
     // Constructor
-    public MoviesAdapter(List<Movie> movies, OnMovieClickListener listener) {
+    public MoviesAdapter(List<Movie> movies, List<Category> categories, OnMovieClickListener listener) {
         this.movies = movies;
+        this.categories = categories; // Initialize categories
         this.listener = listener;
     }
 
@@ -37,7 +39,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         Movie movie = movies.get(position);
-        holder.bind(movie);
+        holder.bind(movie, categories); // Pass both movie and categories
 
         // Set click listener for the item view (for updating)
         holder.itemView.setOnClickListener(v -> {
@@ -57,7 +59,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         });
     }
 
-
     @Override
     public int getItemCount() {
         return movies == null ? 0 : movies.size();
@@ -76,19 +77,33 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             movieCategory = itemView.findViewById(R.id.movieCategory);
         }
 
-        public void bind(Movie movie) {
+        public void bind(Movie movie, List<Category> categories) {
             // Load movie image using Glide
-            String fullImageUrl = "http://10.0.2.2:5000" + movie.getPosterUrl(); // Replace with your server's IP or domain
+            String fullImageUrl = "http://10.0.2.2:5000" + movie.getPosterUrl();
             Glide.with(itemView.getContext())
                     .load(fullImageUrl)
-                    .placeholder(R.drawable.placeholder) // Placeholder image while loading
-                    .error(R.drawable.error) // Error image if loading fails
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.error)
                     .into(movieImage);
 
             // Set movie details
             movieTitle.setText(movie.getTitle());
             movieDirector.setText("Director: " + movie.getDirector());
-            movieCategory.setText("Category: " + movie.getCategory());
+
+            // Map category IDs to category names
+            StringBuilder categoryNames = new StringBuilder();
+            for (String categoryId : movie.getCategoryIds()) {
+                for (Category category : categories) {
+                    if (category.getId().equals(categoryId)) {
+                        categoryNames.append(category.getName()).append(", ");
+                        break;
+                    }
+                }
+            }
+            if (categoryNames.length() > 0) {
+                categoryNames.setLength(categoryNames.length() - 2); // Remove the last ", "
+            }
+            movieCategory.setText("Category: " + categoryNames.toString());
         }
     }
 

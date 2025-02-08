@@ -3,6 +3,7 @@ package com.example.myapplication.entities;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Movie implements Serializable {
@@ -35,10 +36,10 @@ public class Movie implements Serializable {
     private List<String> watchedBy; // List of User IDs
 
     @SerializedName("categories")
-    private List<Category> categories;  // List of Category objects (or Category IDs)
+    private List<String> categoryIds; // Stores category IDs from API
 
     // Constructor
-    public Movie(String id, String title, String description, String publisher, String director, String videoUrl, String posterUrl, boolean promoted, List<String> watchedBy, List<Category> categories) {
+    public Movie(String id, String title, String description, String publisher, String director, String videoUrl, String posterUrl, boolean promoted, List<String> watchedBy, List<String> categoryIds) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -48,7 +49,7 @@ public class Movie implements Serializable {
         this.posterUrl = posterUrl;
         this.promoted = promoted;
         this.watchedBy = watchedBy;
-        this.categories = categories;  // Initialize the categories field
+        this.categoryIds = categoryIds;
     }
 
     // Getters and setters
@@ -124,12 +125,23 @@ public class Movie implements Serializable {
         this.watchedBy = watchedBy;
     }
 
-    public List<Category> getCategories() {
-        return categories;  // Getter for categories field
+    public List<String> getCategoryIds() {
+        return categoryIds != null ? categoryIds : new ArrayList<>();
     }
 
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;  // Setter for categories field
+    public void setCategoryIds(List<String> categoryIds) {
+        this.categoryIds = categoryIds;
+    }
+
+    // New method to flatten the watchedBy list (if it's a list of lists)
+    public List<String> getFlattenedWatchedBy() {
+        List<String> flattenedList = new ArrayList<>();
+        if (watchedBy != null) {
+            for (String userId : watchedBy) {
+                flattenedList.add(userId);
+            }
+        }
+        return flattenedList;
     }
 
     // Optional: Override toString() for better logging
@@ -145,15 +157,7 @@ public class Movie implements Serializable {
                 ", posterUrl='" + posterUrl + '\'' +
                 ", promoted=" + promoted +
                 ", watchedBy=" + watchedBy +
-                ", categories=" + categories +  // Log the categories field
+                ", categoryIds=" + categoryIds +
                 '}';
     }
-
-    public Category getCategory() {
-        if (categories != null && !categories.isEmpty()) {
-            return categories.get(0);  // Return the first category in the list
-        }
-        return null;  // Return null if no categories are assigned
-    }
-
 }

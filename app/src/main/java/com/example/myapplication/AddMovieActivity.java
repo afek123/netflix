@@ -148,7 +148,6 @@ public class AddMovieActivity extends AppCompatActivity {
         RequestBody directorBody = RequestBody.create(MediaType.parse("text/plain"), director);
         // Send the category ID instead of the name
         RequestBody categoryBody = RequestBody.create(MediaType.parse("text/plain"), categoryId);
-
         // Prepare the files
         File videoFile = getFileFromUri(videoFileUri);
         File posterFile = getFileFromUri(posterFileUri);

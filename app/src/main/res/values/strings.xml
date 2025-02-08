@@ -13,4 +13,5 @@
     <string name="add_movie">Add Movie</string>
     <string name="title">Title</string>
     <string name="director">Director</string>
+    <string name="category_unknown">Category: Unknown</string>
 </resources>

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,24 +15,29 @@ import com.example.myapplication.adapters.MoviesAdapter;
 import com.example.myapplication.api.ApiService;
 import com.example.myapplication.api.RetrofitClient;
 import com.example.myapplication.entities.Movie;
+import com.example.myapplication.entities.Category;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ManageMoviesActivity extends AppCompatActivity implements MoviesAdapter.OnMovieClickListener {
+    private ActivityResultLauncher<Intent> addMovieLauncher; // Declare ActivityResultLauncher
+    private ActivityResultLauncher<Intent> updateMovieLauncher; // Declare ActivityResultLauncher for updating movies
 
     private RecyclerView recyclerView;
     private MoviesAdapter moviesAdapter;
     private List<Movie> movies = new ArrayList<>();
     private ApiService apiService;
     private FloatingActionButton btnAddMovie;
-
+    private Map<String, String> categoryMap = new HashMap<>();
     private static final int ADD_MOVIE_REQUEST_CODE = 1; // Request code for adding a movie
     private static final int UPDATE_MOVIE_REQUEST_CODE = 2; // Request code for updating a movie
 
@@ -41,8 +48,12 @@ public class ManageMoviesActivity extends AppCompatActivity implements MoviesAda
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+// Define the list of categories (it can be empty or populated as needed)
+        List<Category> categories = new ArrayList<>(); // or populate it based on the loaded categories
 
-        moviesAdapter = new MoviesAdapter(movies, this);
+// Update the MoviesAdapter constructor call
+        moviesAdapter = new MoviesAdapter(movies, categories, this);  // Pass the necessary arguments
+
         recyclerView.setAdapter(moviesAdapter);
 
         apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
@@ -50,8 +61,29 @@ public class ManageMoviesActivity extends AppCompatActivity implements MoviesAda
         btnAddMovie = findViewById(R.id.btnAddMovie);
         btnAddMovie.setOnClickListener(v -> {
             Intent intent = new Intent(ManageMoviesActivity.this, AddMovieActivity.class);
-            startActivityForResult(intent, ADD_MOVIE_REQUEST_CODE); // Use startActivityForResult to get result
+            addMovieLauncher.launch(intent); // Launch using the ActivityResultLauncher
         });
+
+        // Initialize the ActivityResultLauncher for adding a movie
+        addMovieLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        loadMovies(); // Refresh movie list after adding a new movie
+                    }
+                });
+        updateMovieLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        if (result.getData() != null) {
+                            Movie updatedMovie = (Movie) result.getData().getSerializableExtra("updatedMovie");
+                            if (updatedMovie != null) {
+                                updateMovieInList(updatedMovie); // Update the movie in the list
+                            }
+                        }
+                    }
+                });
 
         loadMovies();
     }
@@ -63,52 +95,94 @@ public class ManageMoviesActivity extends AppCompatActivity implements MoviesAda
     }
 
     private void loadMovies() {
-        Call<List<Movie>> call = apiService.getMovies();
-        call.enqueue(new Callback<List<Movie>>() {
+        apiService.getMovies().enqueue(new Callback<List<Movie>>() {
             @Override
             public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    movies.clear();
-                    movies.addAll(response.body());
-                    moviesAdapter.notifyDataSetChanged();
+                    movies.clear(); // Clear existing movies list
+                    loadCategories(); // Load categories before loading movies
+                    for (Movie movie : response.body()) {
+                        // Map category IDs to category names
+                        List<String> categoryIds = movie.getCategoryIds();
+                        List<Category> categoryObjects = new ArrayList<>();
+                        if(categoryIds.isEmpty()){
+                            Log.d("MainActivitys", "null");
+                        }
+                        for (String categoryId : categoryIds) {
+                            Log.d("MainActivitys", "in");
+                            String categoryName = categoryMap.get(categoryId); // Get category name from the map
+                            boolean isPromoted = false;  // Default to false, or use actual value if available
+                            Log.d("MainActivitys", categoryName);
+                            if (categoryName != null) {
+                                Log.d("MainActivitys", "hell");
+                                categoryObjects.add(new Category(categoryId, categoryName, isPromoted)); // Create a Category object
+                            } else {
+                                categoryObjects.add(new Category(categoryId, "Unknown", isPromoted)); // If category is not found
+                            }
+                        }
+
+                        // Extract category names as a list of strings
+                        List<String> categoryNames = new ArrayList<>();
+                        for (Category category : categoryObjects) {
+                            categoryNames.add(category.getName());
+                        }
+
+                        // Set the movie categories (list of category names as strings)
+                        movie.setCategoryIds(categoryNames.isEmpty() ? List.of("Unknown") : categoryNames);
+
+                        // Handle watchedBy nested list
+                        List<String> flattenedWatchedBy = movie.getFlattenedWatchedBy();
+                        Log.d("MovieLoader", "Movie: " + movie.getTitle() + " Watched by: " + flattenedWatchedBy);
+
+                        movies.add(movie);
+                    }
+
+                    moviesAdapter.notifyDataSetChanged();  // Notify the adapter that the movie data has changed
                 } else {
-                    handleError(response);
+                    Log.e("ManageMoviesActivity", "Failed to load movies");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Movie>> call, Throwable t) {
-                showError(t);
+                Log.e("ManageMoviesActivity", "Failed to load movies", t);
             }
         });
     }
 
-    private void handleError(Response<List<Movie>> response) {
-        try {
-            String errorBody = response.errorBody().string();
-            Toast.makeText(this, "Error: " + errorBody, Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error parsing error response!", Toast.LENGTH_SHORT).show();
-        }
-    }
 
-    private void showError(Throwable t) {
-        t.printStackTrace();
-        Toast.makeText(this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+    private void loadCategories() {
+        apiService.getCategories().enqueue(new Callback<List<Category>>() {
+            @Override
+            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Create a map of category IDs to category names
+                    for (Category category : response.body()) {
+                        categoryMap.put(category.getId(), category.getName());
+                    }
+                } else {
+                    Log.e("ManageMoviesActivity", "Failed to load categories");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Category>> call, Throwable t) {
+                Log.e("ManageMoviesActivity", "Failed to load categories", t);
+            }
+        });
     }
 
     @Override
     public void onUpdateClick(Movie movie) {
-        // Log to verify it's triggered
         Log.d("ManageMoviesActivity", "Navigating to UpdateMovieActivity with movie: " + movie.getTitle());
 
-        // Navigate to UpdateMovieActivity with the movie data
+        // Use the ActivityResultLauncher to start the activity
         Intent intent = new Intent(ManageMoviesActivity.this, UpdateMovieActivity.class);
-        intent.putExtra("movie", movie); // Pass the movie object to the update activity
-        startActivityForResult(intent, UPDATE_MOVIE_REQUEST_CODE);
+        intent.putExtra("movie", movie); // Pass the movie object
+        updateMovieLauncher.launch(intent); // Launch the intent using the new API
     }
-
 
     @Override
     public void onDeleteClick(Movie movie) {
