@@ -1,22 +1,28 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.myapplication.api.ApiService;
 import com.example.myapplication.api.RetrofitClient;
 import com.example.myapplication.entities.Category;
 import com.example.myapplication.entities.Movie;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,9 +40,10 @@ import retrofit2.Response;
 
 public class UpdateMovieActivity extends AppCompatActivity {
     private EditText titleEditText, directorEditText;
-    private Spinner categorySpinner;
+    private MultiAutoCompleteTextView categoryMultiAutoCompleteTextView;
     private Button selectVideoButton, selectPosterButton, updateMovieButton;
     private TextView errorTextView;
+    private FloatingActionButton toggleThemeButton;
 
     private Uri videoFileUri, posterFileUri;
     private List<Category> categories = new ArrayList<>();
@@ -47,19 +54,30 @@ public class UpdateMovieActivity extends AppCompatActivity {
 
     private ApiService apiService;
 
+    private SharedPreferences sharedPreferences;
+    private static final String PREFS_NAME = "MyAppPrefs";
+    private static final String THEME_KEY = "isDarkMode";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_movie);  // Reuse the same layout
+
+        // Set the theme based on user preference
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean isDarkMode = sharedPreferences.getBoolean(THEME_KEY, false);
+        setAppTheme(isDarkMode);
+
+        setContentView(R.layout.activity_update_movie);
 
         // Initialize views
         titleEditText = findViewById(R.id.titleEditText);
         directorEditText = findViewById(R.id.directorEditText);
-        categorySpinner = findViewById(R.id.categorySpinner);
+        categoryMultiAutoCompleteTextView = findViewById(R.id.categoryMultiAutoCompleteTextView);
         selectVideoButton = findViewById(R.id.selectVideoButton);
         selectPosterButton = findViewById(R.id.selectPosterButton);
-        updateMovieButton = findViewById(R.id.addMovieButton); // Same button, but updating now
+        updateMovieButton = findViewById(R.id.updateMovieButton);
         errorTextView = findViewById(R.id.errorTextView);
+        toggleThemeButton = findViewById(R.id.toggleThemeButton);
 
         // Initialize Retrofit
         apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
@@ -70,18 +88,45 @@ public class UpdateMovieActivity extends AppCompatActivity {
             // Pre-fill fields with the current movie data
             titleEditText.setText(movieToUpdate.getTitle());
             directorEditText.setText(movieToUpdate.getDirector());
-            // Assuming `getCategoryId()` gives you the category ID
-            int categoryIndex = getCategoryIndexById(movieToUpdate.getCategoryIds().get(0)); // Assuming it's a single category ID
-            categorySpinner.setSelection(categoryIndex);
+
+            StringBuilder selectedCategories = new StringBuilder();
+            for (String categoryId : movieToUpdate.getCategories()) {
+                for (Category category : categories) {
+                    if (category.getId().equals(categoryId)) {
+                        selectedCategories.append(category.getName()).append(", ");
+                        break;
+                    }
+                }
+            }
+            if (selectedCategories.length() > 0) {
+                selectedCategories.setLength(selectedCategories.length() - 2); // Remove the last ", "
+            }
+            categoryMultiAutoCompleteTextView.setText(selectedCategories.toString());
         }
 
-        // Load categories for the spinner
+        // Load categories for the MultiAutoCompleteTextView
         loadCategories();
 
         // Set click listeners
         selectVideoButton.setOnClickListener(v -> openFilePicker(PICK_VIDEO_FILE));
         selectPosterButton.setOnClickListener(v -> openFilePicker(PICK_POSTER_FILE));
         updateMovieButton.setOnClickListener(v -> handleUpdateMovie());
+
+        // Set click listener for the Toggle Theme button
+        toggleThemeButton.setOnClickListener(v -> {
+            boolean newDarkMode = !isDarkMode;
+            sharedPreferences.edit().putBoolean(THEME_KEY, newDarkMode).apply();
+            setAppTheme(newDarkMode);
+            recreate(); // Recreate the activity to apply the new theme
+        });
+    }
+
+    private void setAppTheme(boolean isDarkMode) {
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     private void loadCategories() {
@@ -95,9 +140,13 @@ public class UpdateMovieActivity extends AppCompatActivity {
                     for (Category category : categories) {
                         categoryNames.add(category.getName());
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(UpdateMovieActivity.this, android.R.layout.simple_spinner_item, categoryNames);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    categorySpinner.setAdapter(adapter);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                            UpdateMovieActivity.this,
+                            android.R.layout.simple_dropdown_item_1line,
+                            categoryNames
+                    );
+                    categoryMultiAutoCompleteTextView.setAdapter(adapter);
+                    categoryMultiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
                 } else {
                     showError("Failed to load categories");
                 }
@@ -135,9 +184,9 @@ public class UpdateMovieActivity extends AppCompatActivity {
     private void handleUpdateMovie() {
         String title = titleEditText.getText().toString().trim();
         String director = directorEditText.getText().toString().trim();
-        String categoryId = categories.get(categorySpinner.getSelectedItemPosition()).getId();
+        String[] selectedCategories = categoryMultiAutoCompleteTextView.getText().toString().split(",\\s*");
 
-        if (title.isEmpty() || director.isEmpty() || categoryId == null) {
+        if (title.isEmpty() || director.isEmpty() || selectedCategories.length == 0) {
             showError("All fields are required!");
             return;
         }
@@ -150,7 +199,19 @@ public class UpdateMovieActivity extends AppCompatActivity {
         // Prepare the RequestBody objects for text fields
         RequestBody titleBody = RequestBody.create(MediaType.parse("text/plain"), title);
         RequestBody directorBody = RequestBody.create(MediaType.parse("text/plain"), director);
-        RequestBody categoryBody = RequestBody.create(MediaType.parse("text/plain"), categoryId);
+        StringBuilder categoryIds = new StringBuilder();
+        for (String categoryName : selectedCategories) {
+            for (Category category : categories) {
+                if (category.getName().equals(categoryName.trim())) {
+                    if (categoryIds.length() > 0) {
+                        categoryIds.append(",");
+                    }
+                    categoryIds.append(category.getId());
+                    break;
+                }
+            }
+        }
+        RequestBody categoryBody = RequestBody.create(MediaType.parse("text/plain"), categoryIds.toString());
 
         // Prepare the files
         File videoFile = getFileFromUri(videoFileUri);
@@ -162,10 +223,24 @@ public class UpdateMovieActivity extends AppCompatActivity {
         }
 
         // Create MultipartBody.Part for the video file
-        MultipartBody.Part videoPart = MultipartBody.Part.createFormData("videoUrl", videoFile.getName(), RequestBody.create(MediaType.parse("video/*"), videoFile));
+        MultipartBody.Part videoPart = MultipartBody.Part.createFormData(
+                "videoUrl",
+                videoFile.getName(),
+                RequestBody.create(MediaType.parse("video/*"), videoFile)
+        );
 
         // Create MultipartBody.Part for the poster file
-        MultipartBody.Part posterPart = MultipartBody.Part.createFormData("posterUrl", posterFile.getName(), RequestBody.create(MediaType.parse("image/*"), posterFile));
+        MultipartBody.Part posterPart = MultipartBody.Part.createFormData(
+                "posterUrl",
+                posterFile.getName(),
+                RequestBody.create(MediaType.parse("image/*"), posterFile)
+        );
+
+        // Log the request details for debugging
+        Log.d("UpdateMovieActivity", "Title: " + title);
+        Log.d("UpdateMovieActivity", "Director: " + director);
+        Log.d("UpdateMovieActivity", "Video File: " + videoFile.getName());
+        Log.d("UpdateMovieActivity", "Poster File: " + posterFile.getName());
 
         // Make the API call to update the movie
         Call<Movie> call = apiService.updateMovie(movieToUpdate.getId(), titleBody, directorBody, categoryBody, videoPart, posterPart);
@@ -177,29 +252,26 @@ public class UpdateMovieActivity extends AppCompatActivity {
                     setResult(RESULT_OK);
                     finish(); // Close the activity and return to the previous screen
                 } else {
-                    showError("Failed to update movie");
+                    showError("Failed to update movie: " + response.message());
+                    Log.e("UpdateMovieActivity", "Failed to update movie: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<Movie> call, Throwable t) {
                 showError("Error: " + t.getMessage());
+                Log.e("UpdateMovieActivity", "Error: " + t.getMessage(), t);
             }
         });
     }
 
     private File getFileFromUri(Uri uri) {
+        if (uri == null) return null;
+
         try {
             InputStream inputStream = getContentResolver().openInputStream(uri);
-            File file = new File(getCacheDir(), "temp_file");
-            FileOutputStream outputStream = new FileOutputStream(file);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
-            }
-            outputStream.close();
-            inputStream.close();
+            File file = new File(getCacheDir(), getFileName(uri));
+            copyInputStreamToFile(inputStream, file);
             return file;
         } catch (IOException e) {
             e.printStackTrace();
@@ -207,13 +279,38 @@ public class UpdateMovieActivity extends AppCompatActivity {
         }
     }
 
-    private int getCategoryIndexById(String categoryId) {
-        for (int i = 0; i < categories.size(); i++) {
-            if (categories.get(i).getId().equals(categoryId)) {
-                return i;
+    private String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    if (columnIndex != -1) {
+                        result = cursor.getString(columnIndex);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        return 0; // Default to the first category if not found
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
+    }
+
+    private void copyInputStreamToFile(InputStream inputStream, File file) throws IOException {
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+        }
     }
 
     private void showError(String message) {

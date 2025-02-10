@@ -1,4 +1,5 @@
 package com.example.myapplication.adapters;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +14,23 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.entities.Category;
 import com.example.myapplication.entities.Movie;
+import com.example.myapplication.api.ApiService;
+import com.example.myapplication.api.RetrofitClient;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
     private List<Movie> movies;
-    private List<Category> categories; // Add this
     private OnMovieClickListener listener;
+    private ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
 
     // Constructor
-    public MoviesAdapter(List<Movie> movies, List<Category> categories, OnMovieClickListener listener) {
+    public MoviesAdapter(List<Movie> movies, OnMovieClickListener listener) {
         this.movies = movies;
-        this.categories = categories; // Initialize categories
         this.listener = listener;
     }
 
@@ -39,7 +45,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         Movie movie = movies.get(position);
-        holder.bind(movie, categories); // Pass both movie and categories
+        holder.bind(movie);
 
         // Set click listener for the item view (for updating)
         holder.itemView.setOnClickListener(v -> {
@@ -77,7 +83,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             movieCategory = itemView.findViewById(R.id.movieCategory);
         }
 
-        public void bind(Movie movie, List<Category> categories) {
+        public void bind(Movie movie) {
             // Load movie image using Glide
             String fullImageUrl = "http://10.0.2.2:5000" + movie.getPosterUrl();
             Glide.with(itemView.getContext())
@@ -90,20 +96,41 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             movieTitle.setText(movie.getTitle());
             movieDirector.setText("Director: " + movie.getDirector());
 
-            // Map category IDs to category names
-            StringBuilder categoryNames = new StringBuilder();
-            for (String categoryId : movie.getCategoryIds()) {
-                for (Category category : categories) {
-                    if (category.getId().equals(categoryId)) {
-                        categoryNames.append(category.getName()).append(", ");
-                        break;
+            // Fetch categories and map category IDs to names
+            fetchCategoriesAndMapToMovie(movie);
+        }
+
+        private void fetchCategoriesAndMapToMovie(Movie movie) {
+            ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+            apiService.getCategories().enqueue(new Callback<List<Category>>() {
+                @Override
+                public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        List<Category> categories = response.body();
+                        // Map category IDs to category names
+                        StringBuilder categoryNames = new StringBuilder();
+                        for (String categoryId : movie.getCategories()) {
+                            for (Category category : categories) {
+                                if (category.getId().equals(categoryId)) {
+                                    categoryNames.append(category.getName()).append(", ");
+                                    break;
+                                }
+                            }
+                        }
+                        if (categoryNames.length() > 0) {
+                            categoryNames.setLength(categoryNames.length() - 2); // Remove the last ", "
+                        }
+                        movieCategory.setText("Categories: " + categoryNames.toString());
+                    } else {
+                        Log.e("MoviesAdapter", "Failed to fetch categories");
                     }
                 }
-            }
-            if (categoryNames.length() > 0) {
-                categoryNames.setLength(categoryNames.length() - 2); // Remove the last ", "
-            }
-            movieCategory.setText("Category: " + categoryNames.toString());
+
+                @Override
+                public void onFailure(Call<List<Category>> call, Throwable t) {
+                    Log.e("MoviesAdapter", "Failed to fetch categories", t);
+                }
+            });
         }
     }
 

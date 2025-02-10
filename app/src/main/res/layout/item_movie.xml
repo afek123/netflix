@@ -32,7 +32,7 @@
         android:id="@+id/movieCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/category_unknown"
+        android:text="Categories: Unknown"
         android:textSize="14sp" />
 
 </LinearLayout>

@@ -1,18 +1,20 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.myapplication.api.ApiService;
 import com.example.myapplication.api.RetrofitClient;
 import com.example.myapplication.entities.Category;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,18 +31,32 @@ public class ManageCategoriesActivity extends AppCompatActivity {
     private List<Category> categories;
     private ApiService apiService;
     private FloatingActionButton btnAddCategory;
-    private static final int UPDATE_CATEGORY_REQUEST_CODE = 1;
-    private static final int ADD_CATEGORY_REQUEST_CODE = 2; // Define a request code for adding a category
+    private FloatingActionButton toggleThemeButton; // Toggle Theme button
 
+    private static final int UPDATE_CATEGORY_REQUEST_CODE = 1;
+    private static final int ADD_CATEGORY_REQUEST_CODE = 2;
+
+    private SharedPreferences sharedPreferences;
+    private static final String PREFS_NAME = "MyAppPrefs";
+    private static final String THEME_KEY = "isDarkMode";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set the theme based on user preference
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean isDarkMode = sharedPreferences.getBoolean(THEME_KEY, false);
+        setAppTheme(isDarkMode);
+
         setContentView(R.layout.activity_manage_categories);
 
-        // Initialize views and other components
+        // Initialize views
         lvCategories = findViewById(R.id.lvCategories);
         btnAddCategory = findViewById(R.id.btnAdd);
+        toggleThemeButton = findViewById(R.id.toggleThemeButton); // Initialize Toggle Theme button
+
+        // Initialize lists and adapter
         categoryNames = new ArrayList<>();
         categories = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categoryNames);
@@ -69,11 +85,27 @@ public class ManageCategoriesActivity extends AppCompatActivity {
             startActivityForResult(intent, UPDATE_CATEGORY_REQUEST_CODE);
         });
 
-        // Floating Action Button click listener
+        // Floating Action Button click listener for adding a category
         btnAddCategory.setOnClickListener(v -> {
             Intent intent = new Intent(ManageCategoriesActivity.this, AddCategoryActivity.class);
-            startActivityForResult(intent, ADD_CATEGORY_REQUEST_CODE); // Use startActivityForResult
+            startActivityForResult(intent, ADD_CATEGORY_REQUEST_CODE);
         });
+
+        // Floating Action Button click listener for toggling theme
+        toggleThemeButton.setOnClickListener(v -> {
+            boolean newDarkMode = !isDarkMode;
+            sharedPreferences.edit().putBoolean(THEME_KEY, newDarkMode).apply();
+            setAppTheme(newDarkMode);
+            recreate(); // Recreate the activity to apply the new theme
+        });
+    }
+
+    private void setAppTheme(boolean isDarkMode) {
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     @Override

@@ -47,7 +47,7 @@ public interface ApiService {
     Call<Movie> createMovie(
             @Part("title") RequestBody title,
             @Part("director") RequestBody director,
-            @Part("category") RequestBody category,  // Ensure this is a valid ObjectId string
+            @Part("category") RequestBody categories,  // Ensure this is a valid ObjectId string
             @Part MultipartBody.Part videoFile,     // Correct field name
             @Part MultipartBody.Part posterFile     // Correct field name
     );
@@ -57,12 +57,12 @@ public interface ApiService {
     Call<Movie> getMovie(@Path("id") String movieId);
 
     @Multipart
-    @PATCH("/api/movies/{id}")
+    @PUT("/api/movies/{id}") // Change from PATCH to PUT
     Call<Movie> updateMovie(
             @Path("id") String movieId,
             @Part("title") RequestBody title,
             @Part("director") RequestBody director,
-            @Part("categoryId") RequestBody categoryId,
+            @Part("category") RequestBody category,
             @Part MultipartBody.Part videoUrl,
             @Part MultipartBody.Part posterUrl
     );

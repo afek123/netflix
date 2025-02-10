@@ -13,5 +13,8 @@
     <string name="add_movie">Add Movie</string>
     <string name="title">Title</string>
     <string name="director">Director</string>
-    <string name="category_unknown">Category: Unknown</string>
+    <string name="update_movie">Update Movie</string>
+    <string name="toggle_theme">Toggle Theme</string>
+    <string name="manage_movies">Manage Movies</string>
+    <string name="manage_categories">Manage Categories</string>
 </resources>

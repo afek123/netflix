@@ -28,36 +28,29 @@
     <MultiAutoCompleteTextView
         android:id="@+id/categoryMultiAutoCompleteTextView"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:minHeight="48dp"
+        android:layout_height="wrap_content"
         android:hint="@string/select_a_category"
         android:inputType="text"
-        android:gravity="center_vertical"
-        android:paddingVertical="12dp"
-    android:paddingHorizontal="16dp" />
+        android:minHeight="48dp" />
 
-    <!-- Video File Picker -->
     <Button
         android:id="@+id/selectVideoButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:text="@string/select_video_file" />
 
-    <!-- Poster File Picker -->
     <Button
         android:id="@+id/selectPosterButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:text="@string/select_poster_file" />
 
-    <!-- Add Movie Button -->
     <Button
-        android:id="@+id/addMovieButton"
+        android:id="@+id/updateMovieButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="@string/add_movie" />
+        android:text="@string/update_movie" />
 
-    <!-- Error Message -->
     <TextView
         android:id="@+id/errorTextView"
         android:layout_width="match_parent"
@@ -75,6 +68,6 @@
         android:contentDescription="@string/toggle_theme"
         android:src="@drawable/ic_baseline_light_mode_24"
     app:backgroundTint="#8B0000"
-    app:tint="#FFFFFF" />
+    app:tint="#FFFFFF" /> <!-- White icon color -->
 
 </LinearLayout>
