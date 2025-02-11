@@ -1,39 +1,42 @@
-// filepath: /c:/Users/o7539/Downloads/netflix-master/netflix-master/backend/middleware/multer.js
 const multer = require('multer');
 const path = require('path');
 
 // Set storage engine
 const storage = multer.diskStorage({
-  destination: './profilePictures/',
+  destination: './profilePictures/',  // Destination folder for uploads
   filename: (req, file, cb) => {
-    cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+    cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);  // Unique filename
   },
 });
+
+// Check file type (only images allowed)
+function checkFileType(file, cb) {
+  console.log('Uploaded file:', file.originalname, 'MIME type:', file.mimetype);
+
+  // Allowed image extensions
+  const imageFileTypes = /jpeg|jpg|png|gif/;
+
+  // Get the file extension
+  const extname = path.extname(file.originalname).toLowerCase();
+
+  // Check if file is an image
+  const isImage = imageFileTypes.test(extname) && file.mimetype.startsWith('image/');
+
+  if (isImage) {
+    return cb(null, true);  // Accept the file
+  } else {
+    cb('Error: Only images are allowed!');  // Reject if not an image
+  }
+}
 
 // Initialize upload
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 1000000 }, // Limit file size to 1MB
+  limits: { fileSize: 2000000 },  // 2MB max for image file
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb);
   },
 });
-
-// Check file type
-function checkFileType(file, cb) {
-  // Allowed ext
-  const filetypes = /jpeg|jpg|png|gif/;
-  // Check ext
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  // Check mime
-  const mimetype = filetypes.test(file.mimetype);
-
-  if (mimetype && extname) {
-    return cb(null, true);
-  } else {
-    cb('Error: Images Only!');
-  }
-}
 
 // Export the configured multer middleware
 const uploadFields = upload.fields([{ name: 'picture', maxCount: 1 }]);

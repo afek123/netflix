@@ -11,7 +11,8 @@ const createMovie = async (req, res) => {
       // Check for video and poster files in req.files
       const poster = req.files.posterUrl ? `/uploads/${req.files.posterUrl[0].filename}` : null; 
       const video = req.files.videoUrl ? `/uploads/${req.files.videoUrl[0].filename}` : null;
-  
+      const categoryArray = typeof category === 'string' ? category.split(',') : [];
+
       // Validate input
       if (!title || !director || !category || !video || !poster) {
         return res.status(400).json({ error: 'All fields (title, director, category, video, poster) are required' });
@@ -21,7 +22,7 @@ const createMovie = async (req, res) => {
       const newMovie = new Movie({
         title,
         director,
-        category,
+        category:categoryArray,
         videoUrl: video,  // Use the uploaded video file path
         posterUrl: poster, // Use the uploaded poster file path
       });
@@ -67,17 +68,38 @@ const getMovie = async (req, res) => {
     }
 };
 
-// Update a movie
 const updateMovie = async (req, res) => {
     try {
-        const movie = await movieService.updateMovie(req.params.id, req.body);
-        if (!movie) {
-            return res.status(404).json({ error: 'Movie not found' });
+        console.log('Request Body:', req.body);
+        console.log('Uploaded Files:', req.files);
+
+        const { title, director, category } = req.body;
+
+        // Handle file uploads (if files are uploaded)
+        const posterUrl = req.files.posterUrl ? `/uploads/${req.files.posterUrl[0].filename}` : null;
+        const videoUrl = req.files.videoUrl ? `/uploads/${req.files.videoUrl[0].filename}` : null;
+
+        // Prepare the movie data for updating
+        const movieData = {
+            title,
+            director,
+            category,
+            videoUrl,
+            posterUrl,
+        };
+
+        // Call the service to update the movie
+        const updatedMovie = await movieService.updateMovie(req.params.id, movieData);
+
+        if (!updatedMovie) {
+            return res.status(404).json({ error: 'Movie not found or invalid category' });
         }
-        res.status(204).json(movie);
-    }
-    catch (err) {
-        res.status(400).json({ error: 'unable to update the movie' });
+
+        // Return the updated movie
+        res.status(200).json(updatedMovie);
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Failed to update movie' });
     }
 };
 

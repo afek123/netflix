@@ -45,16 +45,37 @@ const getMovieById = async (id) => {
     return await Movie.findById(id);
 };
 
-// Update a movie
 const updateMovie = async (id, movieData) => {
-    const movie = await getMovieById(id);
-    if (!movie) return null;
-    const categoryExists = await Category.findById(movieData.category);
-    if (!categoryExists) return null;
-    movie.set(movieData);
-    await movie.save();
-    return movie;
-}
+    try {
+        // Find the movie by ID
+        const movie = await Movie.findById(id);
+        if (!movie) {
+            return null; // Movie not found
+        }
+
+        // Validate and update category (if provided)
+        if (movieData.category) {
+            const categoryExists = await Category.findById(movieData.category);
+            if (!categoryExists) {
+                return null; // Category not found
+            }
+            movie.category = movieData.category;
+        }
+
+        // Update other fields if provided
+        if (movieData.title) movie.title = movieData.title;
+        if (movieData.director) movie.director = movieData.director;
+        if (movieData.videoUrl) movie.videoUrl = movieData.videoUrl; // Update video URL if provided
+        if (movieData.posterUrl) movie.posterUrl = movieData.posterUrl; // Update poster URL if provided
+
+        // Save the updated movie
+        await movie.save();
+        return movie;
+    } catch (err) {
+        console.error('Error updating movie:', err);
+        throw err; // Propagate the error to the controller
+    }
+};
 
 // Delete a movie
 const deleteMovie = async (id) => {

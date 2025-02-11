@@ -9,27 +9,23 @@ const storage = multer.diskStorage({
   },
 });
 
-// Initialize upload
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 10000000 },  // Limit for total size (can also be specified per file)
-  fileFilter: (req, file, cb) => {
-    checkFileType(file, cb);
-  },
-});
-
 // Check file type (both image and video)
 function checkFileType(file, cb) {
+  console.log('Uploaded file:', file.originalname, 'MIME type:', file.mimetype);
+
   // Allowed image extensions
   const imageFileTypes = /jpeg|jpg|png|gif/;
   // Allowed video extensions
   const videoFileTypes = /mp4|avi|mkv|mov/;
 
+  // Get the file extension
+  const extname = path.extname(file.originalname).toLowerCase();
+
   // Check if file is an image
-  const isImage = imageFileTypes.test(path.extname(file.originalname).toLowerCase()) && imageFileTypes.test(file.mimetype);
+  const isImage = imageFileTypes.test(extname) && file.mimetype.startsWith('image/');
 
   // Check if file is a video
-  const isVideo = videoFileTypes.test(path.extname(file.originalname).toLowerCase()) && videoFileTypes.test(file.mimetype);
+  const isVideo = videoFileTypes.test(extname) && (file.mimetype.startsWith('video/') || file.mimetype === 'video/*');
 
   if (isImage || isVideo) {
     return cb(null, true);  // Accept the file

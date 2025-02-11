@@ -17,7 +17,7 @@ router.route('/')
 
 router.route('/:id')
     .get(movieController.getMovie) // Get a movie by ID
-    .put(movieController.updateMovie) // Update a movie
+    .put(uploadFields, movieController.updateMovie) // Update a movie with file uploads 
     .delete(movieController.deleteMovie); // Delete a movie
 
 // Route for searching movies
