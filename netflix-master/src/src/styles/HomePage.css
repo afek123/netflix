@@ -1,0 +1,43 @@
+.homepage-background {
+  /* common styling */
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  min-width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.homepage-content {
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 48px;
+  color: #FFFFFF;
+}
+h2 {
+  margin-bottom: 20px;
+  font-size: 48px;
+  color: #FFFFFF;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #e50914 !important;
+  border: none;
+  border-radius: 5px;
+  color: var(--button-text-color);
+  font-size: 16px;
+  cursor: pointer;
+  margin: 2px;
+
+}
+
+button:hover {
+  background-color: #f40612;
+}

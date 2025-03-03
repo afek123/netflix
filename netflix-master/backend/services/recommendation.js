@@ -5,13 +5,15 @@ const net = require('net');
 const sendCommandToRecommendationServer = (command) => {
     const serverIp = process.env.RECOMMENDATION_SERVER_IP;
     const serverPort = process.env.RECOMMENDATION_SERVER_PORT;
-
+    console.log(serverIp);
+    console.log(serverPort);
     return new Promise((resolve, reject) => {
         const client = new net.Socket();
+        console.log(command);
 
         // Attempt to connect to the recommendation server
         client.connect(serverPort, serverIp, () => {
-            console.log(`Connected to recommendation server at ${serverIp}:${serverPort}`);
+            console.log(`Connected to reommendation server at ${serverIp}:${serverPort}`);
             client.write(command + "\n");
         });
 
@@ -22,8 +24,8 @@ const sendCommandToRecommendationServer = (command) => {
             if (response.includes("\n")) {
                 client.end(); // Close connection after receiving response
             }
+            console.log("dtat",response);
         });
-
         client.on('end', () => {
             console.log("Connection closed by recommendation server.");
             resolve(response.trim()); // Resolve with the trimmed response
@@ -38,7 +40,9 @@ const sendCommandToRecommendationServer = (command) => {
 
 const getRecommendations = async (userId, movieId) => {
     const command = `GET ${userId} ${movieId}`;
-    return await sendCommandToRecommendationServer(command);
+    const respone=await sendCommandToRecommendationServer(command);
+    console.log("respone",respone);
+    return respone;
 };
 
 const addRecommendation = async (userId, movieId) => {

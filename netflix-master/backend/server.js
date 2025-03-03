@@ -16,8 +16,7 @@ customEnv.env(environment, './config');
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({ limit: '4mb' }));
+
 app.use(express.json());
 
 // Serve static files
@@ -28,8 +27,8 @@ app.use('/profilePictures', express.static(path.join(__dirname, 'profilePictures
 const connectionString = process.env.CONNECTION_STRING || 'mongodb://127.0.0.1:27017/netflix';
 mongoose
   .connect(connectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 30000, // Increase timeout to 30 seconds
+    socketTimeoutMS: 45000, // Increase socket timeout to 45 seconds
   })
   .then(() => console.log('MongoDB connected successfully'))
   .catch((err) => console.error('MongoDB connection error:', err));
@@ -44,10 +43,6 @@ app.use('/api/movies', require('./routes/movie'));
 app.use('/api/categories', require('./routes/category'));
 app.use('/api', require('./routes/users'));
 
-// Root health check endpoint
-app.get('/', (req, res) => {
-  res.send('Server is running');
-});
 
 // Start server
 app.listen(port, () => {

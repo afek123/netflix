@@ -16,7 +16,6 @@ const registerUser = async (req, res) => {
         if (!username || !password || !name || !picture) {
             return res.status(400).json({ error: 'Username, password, name and picture are required' });
         }
-
         const user = await userService.createUser({ username, password, name, picture });
         res.status(201).json(user);
     } catch (error) {
@@ -51,7 +50,7 @@ const loginUser = async (req, res) => {
         }
         const token = createJWT(user);
         console.log('Token:', token);
-        res.status(200).json({ token });
+        res.status(200).json({ token , userId: user._id ,role: user.role});
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -59,7 +58,7 @@ const loginUser = async (req, res) => {
 // Add movie to watched list
 const addMovieToWatched = async (req, res) => {
     try {
-        const { userId, movieId } = req.body;
+        const { userId, movieId } = req.params;
         if (!userId || !movieId) {
             return res.status(400).json({ error: 'User ID and Movie ID are required' });
         }
