@@ -152,6 +152,9 @@ function ManagerPage() {
 
   return (
     <div className="managerPage">
+      
+      {/* Invisible Spacer */}
+      <div className="invisible-spacer" style={{ height: "100px" }}></div>
       <ModeSelector
         mode={mode}
         setMode={(newMode) => {

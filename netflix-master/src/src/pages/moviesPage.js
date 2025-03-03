@@ -226,8 +226,6 @@ function HomePage() {
         </div>
       )}
   
-      {/* Invisible Spacer */}
-      <div className="invisible-spacer" style={{ height: "600px" }}></div>
   
       {/* Random Movie Section */}
       {randomMovie && <RandomMovie movie={randomMovie} />}

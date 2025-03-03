@@ -16,7 +16,7 @@ body.dark .content {
   display: flex;
   justify-content: space-between;
   position: fixed;
-  width: 80.8%;
+  width: 84.3%;
   height: 95px;
   padding: 10px 20px;
   top: 0;
@@ -43,8 +43,8 @@ body.dark .content {
   display: flex;
   position: fixed;
   top: 0px;
-  right: 8.1%; /* Align it to the right side */
-  width: 80px; /* Adjust the size as needed */
+  right: 10.1%; /* Align it to the right side */
+  width: 85px; /* Adjust the size as needed */
   height: 95px; /* Adjust the size as needed */
   object-fit: cover;
   border-radius: 0; /* Remove border-radius to make it square or rectangular */

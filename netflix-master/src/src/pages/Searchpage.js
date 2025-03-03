@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchMovies, fetchCategories } from "../services/movieService";
-import MovieCard from "../components/MovieCard"; // Import the MovieCard component
+import MovieCard from "../components/MovieCard2"; // Import the MovieCard component
 import './Searchpage.css';
 import ThemeToggleButton from '../components/ThemeToggleButton';
 
