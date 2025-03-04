@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  # Your existing app service
+  app:
+    build:
+      context: ./backend  # Point to the /backend folder
+      dockerfile: Dockerfile  # Dockerfile is inside /backend
+    ports:
+      - "5000:5000"  # Expose the main app's port
+    volumes:
+      - ./backend/uploads:/app/uploads
+    depends_on:
+      - server  # Ensure the app starts after the server
+      - mongodb  # Ensure the app starts after MongoDB
+    networks:
+      - app-network
+    environment:
+      CONNECTION_STRING: mongodb://mongodb:27017  # Connection string pointing to MongoDB container
+
+  # The server service
+  server:
+    build:
+      context: ./Server  # Path to the Server folder containing Dockerfile.server
+      dockerfile: Dockerfile.server
+    ports:
+      - "8080:8080"  # Expose the server's port
+    networks:
+      - app-network
+
+  # MongoDB service
+  mongodb:
+    image: mongo:latest  # Use the latest MongoDB image
+    container_name: mongodb  # Optional, name the container
+    ports:
+      - "27017:27017"  # Expose MongoDB's default port
+    networks:
+      - app-network
+    volumes:
+      - mongodb-data:/data/db  # Persist MongoDB data
+
+  # React app service
+  react:
+    build:
+      context: ./src  # Path to the React app folder
+      dockerfile: Dockerfile.react
+    ports:
+      - "3000:3000"  # Expose the React app's port
+    networks:
+      - app-network
+    depends_on:
+      - app  # Ensure the React app starts after the backend
+    environment:
+      - REACT_APP_API_URL=http://localhost:3000  # Example environment variable for API URL
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb-data:
+    driver: local

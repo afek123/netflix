@@ -1,0 +1,84 @@
+.movie-page {
+    padding: 20px;
+    background-color: #141414;
+    color: white;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .movie-details {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .movie-info {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .movie-poster {
+    width: 200px;
+    height: auto;
+    margin-right: 20px;
+  }
+  
+  .movie-meta p {
+    margin: 5px 0;
+  }
+  
+  .full-screen-btn {
+    background-color: #e50914;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  /* Full Screen Video Styles */
+.play-movie-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.play-movie-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.movie-video {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+/* Back Button Styles */
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: #e50914;
+  color: white;
+  border: none;
+  padding: 5px 10px; /* Smaller padding for a smaller button */
+  cursor: pointer;
+  font-size: 14px; /* Smaller font size */
+  border-radius: 5px;
+  z-index: 1000; /* Ensure it stays on top */
+}
+
+.back-button:hover {
+  background-color: #f40612;
+}

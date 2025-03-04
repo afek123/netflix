@@ -1,0 +1,257 @@
+/* General page styles for Manager Page */
+.redHeader {
+  color: red;
+}
+
+.managerPage {
+  padding: 20px;
+  text-align: center;
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
+  flex-grow: 1;  /* Ensures that the container grows if content exceeds the viewport height */
+}
+
+body.dark .managerPage {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+form {
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--background-color-light);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+body.dark form {
+  border: 1px solid var(--border-color-dark);
+  background-color: var(--background-color-dark);
+}
+
+form button {
+  margin-top: 20px;
+}
+
+/* Form container styling */
+.formContainer {
+  max-height: 80vh; /* Restrict form height */
+  overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+/* Mode selector buttons */
+.modeSelector {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.modeSelector button {
+  padding: 10px 20px;
+  background-color: var(--secondary-color); /* Gray background for inactive mode */
+  border: none;
+  border-radius: 5px;
+  color: var(--text-color-dark); /* White text for dark mode */
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+body.light .modeSelector button {
+  color: var(--text-color-light); /* Black text for light mode */
+}
+
+.modeSelector button.active {
+  background-color: var(--primary-color); /* Red background for active mode */
+}
+
+.modeSelector button:hover {
+  background-color: var(--secondary-color-hover); /* Darker gray on hover */
+}
+
+/* Input, select, and textarea styling */
+.managerPage input,
+.managerPage select,
+.managerPage textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  background-color: var(--secondary-color);
+  color: var(--text-color-dark); /* White text for dark mode */
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+body.light .managerPage input,
+body.light .managerPage select,
+body.light .managerPage textarea {
+  background-color: var(--background-color-light);
+  color: var(--text-color-light); /* Black text for light mode */
+}
+
+.managerPage input:focus,
+.managerPage select:focus,
+.managerPage textarea:focus {
+  background-color: var(--secondary-color-hover);
+  outline: none;
+}
+
+body.light .managerPage input:focus,
+body.light .managerPage select:focus,
+body.light .managerPage textarea:focus {
+  background-color: var(--background-color-light);
+}
+
+/* Submit button styling */
+.managerPage button {
+  padding: 12px 20px;
+  background-color: var(--primary-color); /* Red background color */
+  border: none;
+  border-radius: 5px;
+  color: var(--text-color-dark); /* White text for dark mode */
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+body.light .managerPage button {
+  color: var(--text-color-light); /* Black text for light mode */
+}
+
+.managerPage button:hover {
+  background-color: var(--primary-color-hover);
+}
+
+/* Error message styling */
+.managerPage .error {
+  color: red;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Grid styling */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px; /* Reduced gap for a tighter layout */
+}
+
+.movieCard {
+  background-color: var(--secondary-color);
+  border-radius: 8px;
+  padding: 10px;
+  width: 150px; /* Reduced width for smaller cards */
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.light .movieCard {
+  background-color: var(--background-color-light);
+  border: 1px solid var(--border-color);
+}
+
+.movieCard:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+body.light .movieCard:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.poster {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.movieCard:hover .poster {
+  transform: scale(1.1); /* Slight zoom on hover */
+  filter: brightness(0.8); /* Dim image slightly */
+}
+
+.movieInfo {
+  margin-top: 8px; /* Reduced margin for a more compact look */
+}
+
+.movieDirector,
+.movieCategory {
+  font-size: 12px; /* Smaller text for details */
+  color: var(--text-color-dark); /* White text for dark mode */
+}
+
+body.light .movieDirector,
+body.light .movieCategory {
+  color: var(--text-color-light); /* Black text for light mode */
+}
+
+.movieTitle {
+  font-size: 16px; /* Slightly smaller font */
+  font-weight: bold;
+}
+
+.movieCard:hover .movieInfo {
+  color: var(--primary-color); /* Highlight title on hover */
+}
+
+body.light .movieCard:hover .movieInfo {
+  color: var(--text-color-light);
+}
+
+/* Category or additional details styling */
+.movieCategory {
+  font-size: 14px;
+  color: var(--text-color-dark); /* White text for dark mode */
+}
+
+body.light .movieCategory {
+  color: var(--text-color-light); /* Black text for light mode */
+}
+
+/* Delete button styling */
+.deleteButton {
+  background-color: #e74c3c; /* Red delete button */
+  color: var(--text-color-dark); /* White text for dark mode */
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px; /* Add space between movie info and delete button */
+}
+
+body.light .deleteButton {
+  color: var(--text-color-light); /* Black text for light mode */
+}
+
+.deleteButton:hover {
+  background-color: #c0392b; /* Darker red on hover */
+}
+
+.addCategorySection {
+  display: block; /* Ensure it's visible */
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--background-color-light);
+}
+
+body.dark .addCategorySection {
+  border: 1px solid var(--border-color-dark);
+  background-color: var(--background-color-dark);
+}

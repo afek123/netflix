@@ -1,0 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #141414;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url("../pictures/homeP.webp");
+    background-size: cover;
+    background-position: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 48px;
+    color: #FFFFFF;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #e50914;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 2px;
+}
+
+button:hover {
+    background-color: #f40612;
+}
