@@ -40,14 +40,45 @@ Once the application is fully started, you can access it through your Android em
 ## 📱 App Overview
 This Android app is designed to mimic the functionality of Netflix, allowing users to browse movies, watch trailers, and manage their profiles. The app is divided into several key sections:
 
+- **User Profiles** 👤
 - **Movies** 🎬
 - **Categories** 🏷️
-- **User Profiles** 👤
 - **Recommendations** ⭐
 - **Manager Features** 🔐 (for admin users)
 
 ---
+## 👤 User Profiles
 
+### Sign In / Sign Up
+- **SignIn Page Dark Mode** (`SignIn_page_dark_mode`) - The login screen in dark mode.
+- ![SignIn_page_dark_mode](https://github.com/user-attachments/assets/b4685584-bd75-4c29-b2a4-d7b66286bd24)
+
+- **SignIn Page Light Mode** (`SignIn_page_lights_mode`) - The login screen in light mode.
+- ![SignIn_page_lights_mode](https://github.com/user-attachments/assets/651e8d05-795c-4277-96be-3ad655aa723e)
+
+- **SignIn Page Unsuccessful** (`SignIn_pageUnSuccessful`) - Displays an error message when login fails.
+- ![SignIn_pageUnSuccessful](https://github.com/user-attachments/assets/a6a95592-63a7-40e0-92a4-6edc29ef03a4)
+
+- **SignUp Page Dark Mode** (`SignUp_page_dark_mode`) - The registration screen in dark mode.
+- ![SignUp_page_dark_mode](https://github.com/user-attachments/assets/fb65e7ae-56e4-4548-8a19-85d786e0a782)
+
+- **SignUp Page Light Mode** (`SignUp_page_light_mode`) - The registration screen in light mode.
+- ![SignUp_page_light_mode](https://github.com/user-attachments/assets/bab46b88-a3ac-4ddf-a287-615c5051491d)
+
+- **SignUp Page Unsuccessful** (`SignUp_pageUnSuccessful`) - Displays an error message when registration fails.
+![SignUp_pageUnSuccessful](https://github.com/user-attachments/assets/0f6c0c50-2d72-4f7d-950d-870a60f7bc15)
+
+### User Management
+- **Manager User** (`managerUser`) - Screen for managing user accounts (admin-only feature).
+![managerUser](https://github.com/user-attachments/assets/14eb4366-33aa-43c7-b43f-bd62f25082de)
+
+
+### Movie Recommendations
+- **Shows Movie** (`ShowsMovie`) - Displays the movie
+- ![ShowsMovie](https://github.com/user-attachments/assets/45e29f41-4b5a-49a6-b873-5b09ffc03b7e)
+
+
+---
 ## 🎬 Movies
 
 ### Browse Movies
@@ -111,38 +142,7 @@ r admins.
 
 ---
 
-## 👤 User Profiles
 
-### Sign In / Sign Up
-- **SignIn Page Dark Mode** (`SignIn_page_dark_mode`) - The login screen in dark mode.
-- ![SignIn_page_dark_mode](https://github.com/user-attachments/assets/b4685584-bd75-4c29-b2a4-d7b66286bd24)
-
-- **SignIn Page Light Mode** (`SignIn_page_lights_mode`) - The login screen in light mode.
-- ![SignIn_page_lights_mode](https://github.com/user-attachments/assets/651e8d05-795c-4277-96be-3ad655aa723e)
-
-- **SignIn Page Unsuccessful** (`SignIn_pageUnSuccessful`) - Displays an error message when login fails.
-- ![SignIn_pageUnSuccessful](https://github.com/user-attachments/assets/a6a95592-63a7-40e0-92a4-6edc29ef03a4)
-
-- **SignUp Page Dark Mode** (`SignUp_page_dark_mode`) - The registration screen in dark mode.
-- ![SignUp_page_dark_mode](https://github.com/user-attachments/assets/fb65e7ae-56e4-4548-8a19-85d786e0a782)
-
-- **SignUp Page Light Mode** (`SignUp_page_light_mode`) - The registration screen in light mode.
-- ![SignUp_page_light_mode](https://github.com/user-attachments/assets/bab46b88-a3ac-4ddf-a287-615c5051491d)
-
-- **SignUp Page Unsuccessful** (`SignUp_pageUnSuccessful`) - Displays an error message when registration fails.
-![SignUp_pageUnSuccessful](https://github.com/user-attachments/assets/0f6c0c50-2d72-4f7d-950d-870a60f7bc15)
-
-### User Management
-- **Manager User** (`managerUser`) - Screen for managing user accounts (admin-only feature).
-![managerUser](https://github.com/user-attachments/assets/14eb4366-33aa-43c7-b43f-bd62f25082de)
-
-
-### Movie Recommendations
-- **Shows Movie** (`ShowsMovie`) - Displays the movie
-- ![ShowsMovie](https://github.com/user-attachments/assets/45e29f41-4b5a-49a6-b873-5b09ffc03b7e)
-
-
----
 
 ## 🔐 Manager Features
 
