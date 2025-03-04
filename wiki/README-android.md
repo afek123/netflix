@@ -67,6 +67,17 @@ This Android app is designed to mimic the functionality of Netflix, allowing use
 
 - **SignUp Page Unsuccessful** (`SignUp_pageUnSuccessful`) - Displays an error message when registration fails.
 ![SignUp_pageUnSuccessful](https://github.com/user-attachments/assets/0f6c0c50-2d72-4f7d-950d-870a60f7bc15)
+- **Home Page Dark Mode** (`Home_page_darks_mode`) - This is the main screen of the app in dark mode, displaying featured movies and categories.
+- ![Home_page_darks_mode](https://github.com/user-attachments/assets/791783ca-8514-4c3b-859e-42ba2c331bda)
+
+- **Home Page Light Mode** (`Home_page_light_mode`) - The same screen but in light mode for user preference.
+- ![Home_page_light_mode](https://github.com/user-attachments/assets/f4defddb-4346-4660-802f-8ce2b99bdede)
+
+- **Netflix Page Dark Mode** (`Netflix_page_dark_mode`) - A dark-themed Netflix-like homepage.
+- ![Netflix_page_dark_mode](https://github.com/user-attachments/assets/ca4020dd-1fa1-4269-892a-cd913ea9ac36)
+
+- **Netflix Page Light Mode** (`Netflix_page_light_mode`) - A light-themed Netflix-like homepage.
+![Netflix_page_light_mode](https://github.com/user-attachments/assets/dd307f1d-8d2d-45e9-88bb-c31dd1042858)
 
 ### User Management
 - **Manager User** (`managerUser`) - Screen for managing user accounts (admin-only feature).
@@ -82,17 +93,6 @@ This Android app is designed to mimic the functionality of Netflix, allowing use
 ## 🎬 Movies
 
 ### Browse Movies
-- **Home Page Dark Mode** (`Home_page_darks_mode`) - This is the main screen of the app in dark mode, displaying featured movies and categories.
-- ![Home_page_darks_mode](https://github.com/user-attachments/assets/791783ca-8514-4c3b-859e-42ba2c331bda)
-
-- **Home Page Light Mode** (`Home_page_light_mode`) - The same screen but in light mode for user preference.
-- ![Home_page_light_mode](https://github.com/user-attachments/assets/f4defddb-4346-4660-802f-8ce2b99bdede)
-
-- **Netflix Page Dark Mode** (`Netflix_page_dark_mode`) - A dark-themed Netflix-like homepage.
-- ![Netflix_page_dark_mode](https://github.com/user-attachments/assets/ca4020dd-1fa1-4269-892a-cd913ea9ac36)
-
-- **Netflix Page Light Mode** (`Netflix_page_light_mode`) - A light-themed Netflix-like homepage.
-![Netflix_page_light_mode](https://github.com/user-attachments/assets/dd307f1d-8d2d-45e9-88bb-c31dd1042858)
 
 ### Movie Details
 - **MovieDetailsWithoutRecommend** - Displays detailed information about a movie without recommendations.
