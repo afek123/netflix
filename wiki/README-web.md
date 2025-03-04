@@ -44,9 +44,9 @@ You should now see the Netflix application running locally. Browse movies, watch
 API Overview
 This document provides detailed information about the API endpoints available in the Netflix application. The API is divided into several sections:
 
+- Users 👤
 - Movies 🎬
 - Categories 🏷️
-- Users 👤
 - Recommendations ⭐
 - Manager Routes 🔐
   - **Image: home Page Dark Mode**
