@@ -1,279 +1,193 @@
-# Netflix API Documentation
+Netflix API Documentation
 
-## 🚀 Cloning and Running the Application
+Cloning and Running the Application
 
-### 📥 Cloning the Repository
+Cloning the Repository
 To get started, clone the Netflix repository by running the following command in your terminal:
 
-```bash
 git clone https://github.com/afek123/netflix.git
-```
 
 Navigate to the project directory:
 
-```bash
 cd netflix
-```
 
----
+Running the Application
 
-### 🛠 Running the Application
+Using Docker Compose
+If the repository contains a 'netflix-master' directory, navigate into it:
 
-#### Using Docker Compose
-If the repository contains a `netflix-master` directory, navigate into it:
-
-```bash
 cd netflix-master
-```
 
 Run Docker Compose to build and start the application:
 
-```bash
 docker-compose up --build
-```
 
-#### What This Command Does:
-- Builds the Docker images for the Netflix application.
-- Starts all necessary containers.
-- Displays logs in the terminal for monitoring.
+What This Command Does:
+
+Builds the Docker images for the Netflix application.
+
+Starts all necessary containers.
+
+Displays logs in the terminal for monitoring.
 
 Once the application is fully started, open your browser and visit:
 
-🔗 **[http://localhost:3000/](http://localhost:3000)**
+http://localhost:3000/
 
 You should now see the Netflix application running locally. Browse movies, watch trailers, and explore all features!
 
----
-
-## 📌 API Overview
+API Overview
 This document provides detailed information about the API endpoints available in the Netflix application. The API is divided into several sections:
 
-- **Movies** 🎬
-- **Categories** 🏷️
-- **Users** 👤
-- **Recommendations** ⭐
-- **Manager Routes** 🔐
+Movies
 
----
+Categories
 
-## 🎬 Movies
+Users
 
-### 📜 Get All Movies
-**Endpoint:** `GET /api/movies`
+Recommendations
 
-**Description:** Retrieves a list of all movies.
+Manager Routes
 
-**Response:** Array of movie objects.
+Movies
 
----
+Get All Movies
+Endpoint: GET /api/movies
+Description: Retrieves a list of all movies.
+Response: Array of movie objects.
 
-### ➕ Create a Movie
-**Endpoint:** `POST /api/movies`
+Create a Movie
+Endpoint: POST /api/movies
+Description: Creates a new movie. Supports file uploads.
+Request Body:
 
-**Description:** Creates a new movie. Supports file uploads.
+Title
 
-**Request Body:**
-- Title
-- Description
-- File uploads (e.g., movie poster, video file)
+Description
 
-**Response:** Created movie object.
+File uploads (e.g., movie poster, video file)
+Response: Created movie object.
 
----
+Get a Movie by ID
+Endpoint: GET /api/movies/:id
+Description: Retrieves a specific movie by its ID.
+Response: Movie object.
 
-### 🔍 Get a Movie by ID
-**Endpoint:** `GET /api/movies/:id`
+Update a Movie
+Endpoint: PUT /api/movies/:id
+Description: Updates a movie's details. Supports file uploads.
+Request Body: Updated movie details.
+Response: Updated movie object.
 
-**Description:** Retrieves a specific movie by its ID.
+Delete a Movie
+Endpoint: DELETE /api/movies/:id
+Description: Deletes a specific movie by its ID.
+Response: Success message.
 
-**Response:** Movie object.
+Search Movies
+Endpoint: GET /api/movies/search/:query
+Description: Searches for movies by title.
+Response: Array of matching movie objects.
 
----
+Categories
 
-### ✏️ Update a Movie
-**Endpoint:** `PUT /api/movies/:id`
+Get All Categories
+Endpoint: GET /api/categories
+Description: Retrieves a list of all categories.
+Response: Array of category objects.
 
-**Description:** Updates a movie's details. Supports file uploads.
+Create a Category
+Endpoint: POST /api/categories
+Description: Creates a new category.
+Request Body:
 
-**Request Body:** Updated movie details.
+Name
 
-**Response:** Updated movie object.
+Description
+Response: Created category object.
 
----
+Get a Category by ID
+Endpoint: GET /api/categories/:id
+Description: Retrieves a specific category by its ID.
+Response: Category object.
 
-### 🗑 Delete a Movie
-**Endpoint:** `DELETE /api/movies/:id`
+Update a Category
+Endpoint: PATCH /api/categories/:id
+Description: Updates a category's details.
+Request Body: Updated category details.
+Response: Updated category object.
 
-**Description:** Deletes a specific movie by its ID.
+Delete a Category
+Endpoint: DELETE /api/categories/:id
+Description: Deletes a specific category by its ID.
+Response: Success message.
 
-**Response:** Success message.
+Users
 
----
+Register a User
+Endpoint: POST /api/users
+Description: Registers a new user. Supports file uploads (e.g., profile picture).
+Request Body:
 
-### 🔎 Search Movies
-**Endpoint:** `GET /api/movies/search/:query`
+Username
 
-**Description:** Searches for movies by title.
+Password
 
-**Response:** Array of matching movie objects.
+Profile picture
+Response: Created user object.
 
----
-
-## 🏷️ Categories
-
-### 📜 Get All Categories
-**Endpoint:** `GET /api/categories`
-
-**Description:** Retrieves a list of all categories.
-
-**Response:** Array of category objects.
-
----
-
-### ➕ Create a Category
-**Endpoint:** `POST /api/categories`
-
-**Description:** Creates a new category.
-
-**Request Body:**
-- Name
-- Description
-
-**Response:** Created category object.
-
----
-
-### 🔍 Get a Category by ID
-**Endpoint:** `GET /api/categories/:id`
-
-**Description:** Retrieves a specific category by its ID.
-
-**Response:** Category object.
-
----
-
-### ✏️ Update a Category
-**Endpoint:** `PATCH /api/categories/:id`
-
-**Description:** Updates a category's details.
-
-**Request Body:** Updated category details.
-
-**Response:** Updated category object.
-
----
-
-### 🗑 Delete a Category
-**Endpoint:** `DELETE /api/categories/:id`
-
-**Description:** Deletes a specific category by its ID.
-
-**Response:** Success message.
-
----
-
-## 👤 Users
-
-### 📝 Register a User
-**Endpoint:** `POST /api/users`
-
-**Description:** Registers a new user. Supports file uploads (e.g., profile picture).
-
-**Request Body:**
-- Username
-- Password
-- Profile picture
-
-**Response:** Created user object.
-
----
-
-### 🔍 Get User Details
-**Endpoint:** `GET /api/users/:id`
-
-**Description:** Retrieves details of a specific user by their ID.
-
-**Response:** User object.
-
----
-
-### 🎥 Add Movie to Watched List
-**Endpoint:** `POST /api/users/add-movie-to-watched`
-
-**Description:** Adds a movie to the user's watched list.
-
-**Request Body:** Movie ID.
-
-**Response:** Updated user object.
-
----
-
-### 🔑 Login User
-**Endpoint:** `POST /api/login`
-
-**Description:** Authenticates a user and generates a JWT token.
-
-**Request Body:**
-- Username
-- Password
-
-**Response:** JWT token.
-
----
-
-### ✅ Check User Token
-**Endpoint:** `POST /api/tokens`
-
-**Description:** Verifies if a user is registered and returns their ID.
-
-**Request Body:** JWT token.
-
-**Response:** User ID.
-
----
-
-## ⭐ Recommendations
-
-### 📜 Get Recommendations
-**Endpoint:** `GET /api/:userId/:movieId/recommend`
-
-**Description:** Retrieves recommendations for a specific user and movie.
-
-**Response:** Array of recommendation objects.
-
----
-
-### ➕ Add Recommendation
-**Endpoint:** `POST /api/:userId/:movieId/recommend`
-
-**Description:** Adds a recommendation for a specific user and movie.
-
-**Request Body:** Recommendation details.
-
-**Response:** Created recommendation object.
-
----
-
-### 🗑 Delete Recommendation
-**Endpoint:** `DELETE /api/:userId/:movieId/recommend`
-
-**Description:** Deletes a specific recommendation.
-
-**Response:** Success message.
-
----
-
-## 🔐 Manager Routes
-
-### 🚀 Restricted Routes for Managers
-**Endpoint:** `/api/manager`
-
-**Description:** Routes restricted to users with the **"manager"** role.
-
-**Middleware:** `checkRole('manager')` is applied to these routes to ensure only authorized users can access them.
-
----
-
-## 🎯 Conclusion
-This API allows users to browse and manage movies, categorize them, handle user accounts, and get recommendations based on viewing history. Managers have exclusive access to admin routes. 🎥🍿🚀
+Get User Details
+Endpoint: GET /api/users/:id
+Description: Retrieves details of a specific user by their ID.
+Response: User object.
+
+Add Movie to Watched List
+Endpoint: POST /api/users/add-movie-to-watched
+Description: Adds a movie to the user's watched list.
+Request Body: Movie ID.
+Response: Updated user object.
+
+Login User
+Endpoint: POST /api/login
+Description: Authenticates a user and generates a JWT token.
+Request Body:
+
+Username
+
+Password
+Response: JWT token.
+
+Check User Token
+Endpoint: POST /api/tokens
+Description: Verifies if a user is registered and returns their ID.
+Request Body: JWT token.
+Response: User ID.
+
+Recommendations
+
+Get Recommendations
+Endpoint: GET /api/:userId/:movieId/recommend
+Description: Retrieves recommendations for a specific user and movie.
+Response: Array of recommendation objects.
+
+Add Recommendation
+Endpoint: POST /api/:userId/:movieId/recommend
+Description: Adds a recommendation for a specific user and movie.
+Request Body: Recommendation details.
+Response: Created recommendation object.
+
+Delete Recommendation
+Endpoint: DELETE /api/:userId/:movieId/recommend
+Description: Deletes a specific recommendation.
+Response: Success message.
+
+Manager Routes
+
+Restricted Routes for Managers
+Endpoint: /api/manager
+Description: Routes restricted to users with the 'manager' role.
+Middleware: checkRole('manager') is applied to these routes to ensure only authorized users can access them.
+
+Conclusion
+This API allows users to browse and manage movies, categorize them, handle user accounts, and get recommendations based on viewing history. Managers have exclusive access to admin routes.
 
