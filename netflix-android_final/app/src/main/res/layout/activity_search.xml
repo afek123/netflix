@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
+
+    <!-- Search Bar -->
+    <EditText
+        android:id="@+id/searchQueryEditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Enter movie name"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
+        android:maxLines="1" />
+
+    <!-- Search Button -->
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/searchQueryEditText"
+        android:textColor="@color/button_text_color"/>
+
+    <!-- RecyclerView for Search Results -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchResultsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/searchButton" />
+
+    <!-- FloatingActionButton for Toggle Theme -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/toggleThemeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:contentDescription="Toggle Theme"
+        android:src="@drawable/ic_baseline_light_mode_24"
+        app:backgroundTint="#8B0000"
+        app:tint="#FFFFFF" />
+
+</RelativeLayout>

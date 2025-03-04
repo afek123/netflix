@@ -1,0 +1,36 @@
+<resources>
+    <!-- Custom Button Style -->
+    <style name="RedButtonStyle">
+        <item name="android:background">#FF0000</item> <!-- Red background -->
+        <item name="android:textColor">#FFFFFF</item> <!-- White text -->
+        <item name="android:padding">10dp</item> <!-- Padding -->
+        <item name="android:textSize">18sp</item> <!-- Text size -->
+        <item name="android:layout_margin">10dp</item> <!-- Margin -->
+    </style>
+
+    <!-- Light Theme -->
+    <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">#6200EE</item>
+        <item name="colorPrimaryVariant">#3700B3</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:colorBackground">#FFFFFF</item> <!-- Background color -->
+        <item name="android:textColorPrimary">#000000</item> <!-- Text color -->
+    </style>
+
+    <!-- Dark Theme -->
+    <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">#BB86FC</item>
+        <item name="colorPrimaryVariant">#3700B3</item>
+        <item name="colorOnPrimary">#000000</item>
+        <item name="android:colorBackground">#121212</item> <!-- Background color -->
+        <item name="android:textColorPrimary">#FFFFFF</item> <!-- Text color -->
+    </style>
+    <!-- Custom Button Style -->
+    <style name="DarkRedButtonStyle">
+        <item name="android:background">@drawable/dark_red_button_background</item> <!-- Use custom drawable -->
+        <item name="android:textColor">#FFFFFF</item> <!-- White text for contrast -->
+        <item name="android:padding">10dp</item> <!-- Padding -->
+        <item name="android:textSize">18sp</item> <!-- Text size -->
+        <item name="android:layout_margin">10dp</item> <!-- Margin -->
+    </style>
+</resources>

@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">#8B0000</item> <!-- Dark Red -->
+        <item name="colorPrimaryContainer">#8B0000</item> <!-- Dark Red -->
+        <item name="colorOnPrimary">#FFFFFF</item> <!-- White text -->
+    </style>
+
+    <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
+</resources>

@@ -1,0 +1,76 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/titleEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:paddingVertical="12dp"
+        android:hint="@string/title"
+        android:inputType="text"
+        android:gravity="center_vertical" />
+
+    <EditText
+        android:id="@+id/directorEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:paddingVertical="12dp"
+        android:hint="@string/director"
+        android:inputType="text"
+        android:gravity="center_vertical" />
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/categoryMultiAutoCompleteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/select_a_category"
+        android:inputType="text"
+        android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/selectVideoButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/select_video_file"
+        android:textColor="@color/button_text_color"/>
+
+    <Button
+        android:id="@+id/selectPosterButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/select_poster_file"
+        android:textColor="@color/button_text_color"/>
+
+    <Button
+        android:id="@+id/updateMovieButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/update_movie"
+        android:textColor="@color/button_text_color"/>
+
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone" />
+
+    <!-- Floating Action Button to toggle theme -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/toggleThemeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/toggle_theme"
+        android:src="@drawable/ic_baseline_light_mode_24"
+        app:backgroundTint="#8B0000"
+        app:tint="#FFFFFF" /> <!-- White icon color -->
+
+</LinearLayout>

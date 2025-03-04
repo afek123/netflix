@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="SignUp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/back_ground"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- Sign up title -->
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sign Up to Netflix"
+                android:textColor="@color/button_text_color"
+                android:textAlignment="center"
+                android:textSize="30sp" />
+
+            <!-- EditText for username -->
+            <EditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:textColorHint="@color/black"
+                android:minHeight="48dp"
+                android:layout_margin="10dp"/>
+
+            <!-- EditText for password -->
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textColorHint="@color/black"
+                android:minHeight="48dp"
+                android:layout_margin="10dp"/>
+
+            <!-- EditText for confirm password -->
+            <EditText
+                android:id="@+id/etConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:textColorHint="@color/black"
+                android:layout_margin="10dp"/>
+
+            <!-- EditText for display name -->
+            <EditText
+                android:id="@+id/etDisplayName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Display Name"
+                android:textColorHint="@color/black"
+                android:minHeight="48dp"
+                android:layout_margin="10dp"/>
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Profile Image"
+                android:src="@drawable/your_image"/>
+
+            <!-- Button for choosing image -->
+            <Button
+                android:id="@+id/btnChooseImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Choose Image"
+                android:textColor="@color/button_text_color"/>
+            <!-- Sign-up button -->
+            <Button
+                android:id="@+id/btnSignUpToSI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Sign Up"
+                android:textColor="@color/button_text_color"/>
+
+            <!-- Move to sign-in button -->
+            <Button
+                android:id="@+id/btnMoveToSI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Already signed in? Press here"
+                android:textColor="@color/button_text_color"/>
+            <!-- ImageView for displaying profile image -->
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/toggleThemeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_margin="16dp"
+                android:contentDescription="@string/toggle_theme"
+                android:src="@drawable/ic_baseline_light_mode_24"
+                app:backgroundTint="#8B0000"
+                app:tint="#FFFFFF" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

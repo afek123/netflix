@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editCategoryName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Category Name" />
+
+        <CheckBox
+            android:id="@+id/editCategoryPromoted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Promoted" />
+
+        <Button
+            android:id="@+id/updateCategoryButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Update Category"
+            android:textColor="@color/button_text_color"/>
+    </LinearLayout>
+
+    <!-- FloatingActionButton for Toggle Theme -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/toggleThemeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:contentDescription="Toggle Theme"
+        android:src="@drawable/ic_baseline_light_mode_24"
+        app:backgroundTint="#8B0000"
+        app:tint="#FFFFFF" />
+
+</RelativeLayout>

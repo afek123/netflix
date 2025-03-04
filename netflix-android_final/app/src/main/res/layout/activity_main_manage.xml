@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Button to manage categories -->
+    <Button
+        android:id="@+id/manageCategoriesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manage Categories"
+        android:background="@drawable/dark_red_button_background"
+        android:textColor="@color/button_text_color" />
+
+    <!-- Button to manage movies -->
+    <Button
+        android:id="@+id/manageMoviesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manage Movies"
+        android:layout_below="@id/manageCategoriesButton"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/dark_red_button_background"
+        android:textColor="@color/button_text_color"
+        />
+
+    <!-- Floating Action Button to toggle theme -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/toggleThemeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/toggle_theme"
+        android:src="@drawable/ic_baseline_light_mode_24"
+        app:backgroundTint="#8B0000"
+        app:tint="#FFFFFF" />
+
+</RelativeLayout>
