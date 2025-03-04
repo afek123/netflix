@@ -324,5 +324,3 @@ Restricted Routes for Managers
 
 **Middleware:** checkRole('manager') is applied to these routes to ensure only authorized users can access them.
 
-Conclusion
-This API allows users to browse and manage movies, categorize them, handle user accounts, and get recommendations based on viewing history. Managers have exclusive access to admin routes. 🎥🍿🚀
